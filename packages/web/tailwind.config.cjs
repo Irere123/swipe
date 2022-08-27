@@ -21,9 +21,9 @@ module.exports = {
       "7xl": "5rem",
     },
     extend: {
-      button: "var(--color-button-text)",
-      transparent: "transparent",
       colors: {
+        button: "var(--color-button-text)",
+        transparent: "transparent",
         primary: {
           100: "var(--color-primary-100)",
           200: "var(--color-primary-200)",
