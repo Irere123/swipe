@@ -4,6 +4,7 @@ import { BodyWrapper } from "../components/BodyWrapper";
 import { Button } from "../components/Button";
 import { CenterLayout } from "../components/CenterLayout";
 import { Footer } from "../components/Footer";
+import { Head } from "../components/Head";
 import { Wrapper } from "../components/Wrapper";
 import { Codicon, FacebookIcon, InstagramIcon, TwitterIcon } from "../icons";
 import { apiBaseUrl, __prod__ } from "../lib/constants";
@@ -55,6 +56,7 @@ export const Login: React.FC<LoginProps> = () => {
 
   return (
     <CenterLayout>
+      <Head title="Login" />
       <Wrapper>
         <BodyWrapper>
           <div className={`my-8`}>
