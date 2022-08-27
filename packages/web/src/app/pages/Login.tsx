@@ -4,6 +4,8 @@ import { Button } from "../components/Button";
 import { CenterLayout } from "../components/CenterLayout";
 import { Footer } from "../components/Footer";
 import { Wrapper } from "../components/Wrapper";
+import { Codicon, FacebookIcon, InstagramIcon, TwitterIcon } from "../icons";
+import { __prod__ } from "../lib/constants";
 
 interface LoginProps {}
 
@@ -26,7 +28,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
   }, [oauthUrl]);
 
   return (
-    <button
+    <Button
       className="justify-center text-base py-3 mt-2"
       color={dev ? "primary" : "secondary"}
       onClick={oauthUrl ? clickHandler : onClick}
@@ -42,7 +44,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
         {children[1]}
         <div />
       </div>
-    </button>
+    </Button>
   );
 };
 
@@ -54,15 +56,27 @@ export const Login: React.FC<LoginProps> = () => {
           <div className={`my-8`}>
             <h3 className="text-primary-100">Swipe</h3>
           </div>
-
-          <div className="flex m-auto flex-col p-6 gap-5 sm:rounded-lg z-10 sm:w-400 w-full">
-            <Button>login with twitter</Button>
-            <button className="bg-accent text-button py-3 hover:bg-accent-hover rounded">
-              Login with Facebook
-            </button>
-            <button className="bg-accent text-button py-3 hover:bg-accent-hover rounded">
-              Login with Twitter
-            </button>
+          <div className="flex m-auto  z-10 sm:w-400 w-full">
+            <div className="flex p-6 flex-col m-auto sm:rounded-lg sm:w-1/2">
+              <LoginButton>
+                <InstagramIcon width={20} height={20} />
+                Login with Instagram
+              </LoginButton>
+              <LoginButton>
+                <FacebookIcon width={20} height={20} />
+                Login with Facebook
+              </LoginButton>
+              <LoginButton>
+                <TwitterIcon width={20} height={20} />
+                Login with Twitter
+              </LoginButton>
+              {!__prod__ && (
+                <LoginButton dev onClick={() => {}}>
+                  <Codicon name="bug" width={20} height={20} />
+                  Create test a user
+                </LoginButton>
+              )}
+            </div>
           </div>
         </BodyWrapper>
       </Wrapper>
