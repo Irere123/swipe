@@ -21,9 +21,9 @@ p.bold {
 :root {
   --color-primary-100: #eff6fc;
   --color-primary-200: #c4ced7;
-  --color-primary-700: #191f24;
-  --color-primary-800: #0c1117;
-  --color-primary-900: #0c1117;
+  --color-primary-700: #242526;
+  --color-primary-800: #3a3b3c;
+  --color-primary-900: #18191a;
   --color-accent: #1f6feb;
   --color-accent-hover: #1f71eb;
   --color-button-text: #eff6fc;
