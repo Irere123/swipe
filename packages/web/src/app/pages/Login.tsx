@@ -1,11 +1,13 @@
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { BodyWrapper } from "../components/BodyWrapper";
 import { Button } from "../components/Button";
 import { CenterLayout } from "../components/CenterLayout";
 import { Footer } from "../components/Footer";
 import { Wrapper } from "../components/Wrapper";
 import { Codicon, FacebookIcon, InstagramIcon, TwitterIcon } from "../icons";
-import { __prod__ } from "../lib/constants";
+import { apiBaseUrl, __prod__ } from "../lib/constants";
+import { useTokenStore } from "../modules/auth/useTokenStore";
 
 interface LoginProps {}
 
@@ -49,6 +51,8 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 };
 
 export const Login: React.FC<LoginProps> = () => {
+  const naigate = useNavigate();
+
   return (
     <CenterLayout>
       <Wrapper>
@@ -71,7 +75,25 @@ export const Login: React.FC<LoginProps> = () => {
                 Login with Twitter
               </LoginButton>
               {!__prod__ && (
-                <LoginButton dev onClick={() => {}}>
+                <LoginButton
+                  dev
+                  onClick={async () => {
+                    // eslint-disable-next-line no-alert
+                    const name = window.prompt("username");
+                    if (!name) {
+                      return;
+                    }
+                    const r = await fetch(
+                      `${apiBaseUrl}/dev/test-info?username=` + name
+                    );
+                    const d = await r.json();
+                    useTokenStore.getState().setTokens({
+                      accessToken: d.accessToken,
+                      refreshToken: d.refreshToken,
+                    });
+                    naigate("/");
+                  }}
+                >
                   <Codicon name="bug" width={20} height={20} />
                   Create test a user
                 </LoginButton>
