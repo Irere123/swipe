@@ -1,6 +1,8 @@
+require("dotenv-safe").config();
 import { PrismaClient } from "@prisma/client";
 import express, { json } from "express";
-import { userRoutes } from "./routes/v1";
+import { __prod__ } from "./constants";
+import { devRoutes, userRoutes } from "./routes/v1";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +10,11 @@ const main = async () => {
   const app = express();
   app.use(json());
 
-  app.use("/api/v1/user", userRoutes);
+  if (!__prod__) {
+    app.use("/dev", devRoutes);
+  }
+  app.use("/v1/user", userRoutes);
+
   app.listen(4000, () => {
     console.log("🚀🚀 Server listening on http://localhost:4000");
   });
