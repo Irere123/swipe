@@ -1,7 +1,8 @@
 require("dotenv-safe").config();
 import { PrismaClient } from "@prisma/client";
 import express, { json } from "express";
-import { __prod__ } from "./constants";
+import cors from "cors";
+import { frontendUrl, __prod__ } from "./constants";
 import { devRoutes, userRoutes } from "./routes/v1";
 
 const prisma = new PrismaClient();
@@ -9,6 +10,7 @@ const prisma = new PrismaClient();
 const main = async () => {
   const app = express();
   app.use(json());
+  app.use(cors({ origin: frontendUrl, credentials: true }));
 
   if (!__prod__) {
     app.use("/dev", devRoutes);
