@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Codicon, HomeIcon, MessageIcon } from "../icons";
+import { Codicon, HomeIcon, Logo, MessageIcon } from "../icons";
 import { useConn } from "../shared-hooks/useConn";
 import { BodyWrapper } from "./BodyWrapper";
 import { BoxedIcon } from "./BoxedIcon";
@@ -15,7 +15,9 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
     <Wrapper>
       <BodyWrapper>
         <div className="flex items-center w-full mt-2">
-          <h3 className="flex flex-1 text-primary-100">Swipe</h3>
+          <div className="flex flex-1">
+            <Logo />
+          </div>
           <div className="flex gap-3">
             <Link to={"/"}>
               <BoxedIcon circle>
