@@ -11,6 +11,7 @@ config :api, Repo, url: database_url
 config :api,
   web_url: System.get_env("WEB_URL") || "http://localhost:3000",
   api_url: System.get_env("API_URL") || "http://localhost:4000",
+  env: :dev,
   access_token_secret:
     System.get_env("ACCESS_TOKEN_SECRET") ||
       raise("""

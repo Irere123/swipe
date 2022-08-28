@@ -12,7 +12,6 @@ defmodule Router.Routes.DevOnly do
 
     if env do
       username = fetch_query_params(conn).query_params["username"]
-      gender  =  fetch_query_params(conn).query_params["gender"]
       user = Contexts.Users.get_by_username(username)
 
       conn
@@ -28,8 +27,8 @@ defmodule Router.Routes.DevOnly do
                     username: username,
                     facebookId: "id:" <> username,
                     displayName: String.capitalize(username),
-                    gender: gender,
-                    genderToShow: gender,
+                    gender: "Male",
+                    genderToShow: "Male",
                     schoolName: "Elixir",
                     birthday: DateTime.now!("UTC"),
                     location: "Musanze, Rwanda",

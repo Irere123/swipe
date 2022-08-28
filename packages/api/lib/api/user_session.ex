@@ -1,4 +1,4 @@
-defmodule Onion.UserSession do
+defmodule Api.UserSession do
   use GenServer, restart: :temporary
 
   # TODO: change this
