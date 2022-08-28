@@ -19,7 +19,6 @@ defmodule Schemas.User do
     field(:twitterAccessToken, :string)
     field(:avatarUrl, :string)
     field(:schoolName, :string)
-    field(:class, :string)
     field(:gender, :string)
     field(:birthday, :naive_datetime)
     field(:genderToShow, :map)

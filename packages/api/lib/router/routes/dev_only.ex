@@ -1,13 +1,52 @@
 defmodule Router.Routes.DevOnly do
   import Plug.Conn
 
-  # alias Schemas.User
+  alias Schemas.User
   use Plug.Router
 
   plug(:match)
   plug(:dispatch)
 
   get "/test-info" do
-    send_resp(conn, 200, "testing")
+    env = Application.fetch_env!(:api, :env)
+
+    if env do
+      username = fetch_query_params(conn).query_params["username"]
+      gender  =  fetch_query_params(conn).query_params["gender"]
+      user = Contexts.Users.get_by_username(username)
+
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(
+        200,
+        Jason.encode!(
+          Api.Utils.TokenUtils.create_tokens(
+            if is_nil(user),
+              do:
+                Repo.insert!(
+                  %User{
+                    username: username,
+                    facebookId: "id:" <> username,
+                    displayName: String.capitalize(username),
+                    gender: gender,
+                    genderToShow: gender,
+                    schoolName: "Elixir",
+                    birthday: DateTime.now!("UTC"),
+                    location: "Musanze, Rwanda",
+                    avatarUrl: "https://placekitten.com/200/200",
+                    bio:
+                      "This is some interesting info about the ex-founder of nothing, welcome to the bio of such a cool person!"
+                  },
+                  returning: true
+                ),
+              else: user
+          )
+        )
+      )
+    else
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(400, Jason.encode!(%{"error" => "no"}))
+    end
   end
 end
