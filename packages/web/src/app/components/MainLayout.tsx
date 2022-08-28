@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Codicon, HomeIcon, MessageIcon } from "../icons";
+import { useConn } from "../shared-hooks/useConn";
 import { BodyWrapper } from "./BodyWrapper";
 import { BoxedIcon } from "./BoxedIcon";
 import { UserAvatar } from "./UserAvatar";
@@ -9,6 +10,7 @@ import { Wrapper } from "./Wrapper";
 export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
+  const { user } = useConn();
   return (
     <Wrapper>
       <BodyWrapper>
@@ -30,7 +32,11 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
                 <Codicon name="notifications" />
               </BoxedIcon>
             </Link>
-            <UserAvatar src="https://placekitten.com/200/200" size="sm" />
+            <UserAvatar
+              src={user.avatarUrl}
+              size="sm"
+              username={user.username}
+            />
           </div>
         </div>
         {children}
