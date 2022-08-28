@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { modalConfirm } from "../../components/ConfirmModal";
 import { useTokenStore } from "../auth/useTokenStore";
 import { User } from "../ws/types";
+import { EditProfileModal } from "./EditProfileModal";
 
 interface Props {
   user: User;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const UserProfile: React.FC<Props> = ({ user, isCurrentUser }) => {
+  const [openEditModal, setOpenEditModal] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -25,7 +27,9 @@ export const UserProfile: React.FC<Props> = ({ user, isCurrentUser }) => {
         <div className="flex gap-2">
           {isCurrentUser && (
             <>
-              <Button>Edit profile</Button>
+              <Button onClick={() => setOpenEditModal(!openEditModal)}>
+                Edit profile
+              </Button>
               <Button
                 color="secondary"
                 onClick={() => {
@@ -49,6 +53,12 @@ export const UserProfile: React.FC<Props> = ({ user, isCurrentUser }) => {
           <p className="text-primary-200">{user.bio}</p>
         </div>
       </div>
+      {openEditModal && (
+        <EditProfileModal
+          isOpen={openEditModal}
+          onRequestClose={() => setOpenEditModal(!openEditModal)}
+        />
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
+import { Codicon } from "../icons";
 
 const customStyles = {
   overlay: {
@@ -21,7 +22,9 @@ const customStyles = {
   },
 };
 
-export const Modal: React.FC<ReactModal["props"]> = ({
+export const Modal: React.FC<ReactModal["props"] & { title?: string }> = ({
+  title,
+  onRequestClose,
   children,
   ...props
 }) => {
@@ -42,6 +45,14 @@ export const Modal: React.FC<ReactModal["props"]> = ({
       {...props}
     >
       <div tabIndex={-1} onKeyDown={onKeyDown}>
+        <div className="text-primary-100 flex flex-1 items-center mb-2">
+          <h4 className="flex flex-1 justify-center">{title}</h4>
+          <Codicon
+            name="plus"
+            className="cursor-pointer transform rotate-45"
+            onClick={onRequestClose}
+          />
+        </div>
         {children}
       </div>
     </ReactModal>
