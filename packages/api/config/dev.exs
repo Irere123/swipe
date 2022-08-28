@@ -1,12 +1,10 @@
 import Config
 
-
 config :logger, level: :info
 
 database_url =
   System.get_env("DATABASE_URL") ||
     "postgres://postgres:postgres@localhost/swipe_repo"
-
 
 config :api, Repo, url: database_url
 
@@ -26,7 +24,6 @@ config :api,
       type some random characters to create one
       """)
 
-
 config :joken,
-access_token_secret: System.fetch_env!("ACCESS_TOKEN_SECRET"),
-refresh_token_secret: System.fetch_env!("REFRESH_TOKEN_SECRET")
+  access_token_secret: System.fetch_env!("ACCESS_TOKEN_SECRET"),
+  refresh_token_secret: System.fetch_env!("REFRESH_TOKEN_SECRET")

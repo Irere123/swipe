@@ -24,6 +24,8 @@ defmodule Schemas.User do
     field(:birthday, :naive_datetime)
     field(:genderToShow, :map)
     field(:location, :string)
+    field(:lastOnline, :utc_datetime_usec)
+    field(:online, :boolean)
     field(:tokenVersion, :integer, default: 1)
     field(:shadowBanned, :boolean, default: false)
 

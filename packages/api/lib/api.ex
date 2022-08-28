@@ -6,6 +6,7 @@ defmodule Api do
     import Supervisor.Spec, warn: false
 
     children = [
+      Api.Supervisors.UserSession,
       {Repo, []},
       Plug.Cowboy.child_spec(
         scheme: :http,
@@ -23,11 +24,11 @@ defmodule Api do
     case Supervisor.start_link(children, opts) do
       {:ok, pid} ->
         {:ok, pid}
+
       error ->
         error
     end
   end
-
 
   defp dispatch do
     [
