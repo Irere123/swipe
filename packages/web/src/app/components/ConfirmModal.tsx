@@ -29,25 +29,25 @@ export const ConfirmModal: React.FC<Props> = () => {
   const { onConfirm, message, close } = useConfirmModalStore();
   return (
     <Modal isOpen={!!onConfirm} onRequestClose={() => close()}>
-      <div>{message}</div>
+      <div className=" text-primary-100">{message}</div>
       <div className={`flex mt-12`}>
-        <Button
-          type="button"
-          onClick={close}
-          className={`mr-1.5`}
-          color="secondary"
-        >
-          Cancel
-        </Button>
         <Button
           onClick={() => {
             close();
             onConfirm?.();
           }}
           type="submit"
-          className={`ml-1.5`}
+          className={`mr-1.5`}
         >
           Yes
+        </Button>
+        <Button
+          type="button"
+          onClick={close}
+          className={`ml-1.5`}
+          color="secondary"
+        >
+          Cancel
         </Button>
       </div>
     </Modal>

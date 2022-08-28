@@ -17,7 +17,7 @@ const customStyles = {
     border: "none",
     maxHeight: "80vh",
     width: "90%",
-    maxWidth: 500,
+    maxWidth: 400,
   },
 };
 
