@@ -191,8 +191,9 @@ defmodule Router.SocketHandler do
     %{state: state}
   end
 
-  def f_handler("hello", _, state) do
-    %{state: state}
+  def f_handler("get_user_profile", %{"username"  => username}, _state) do
+    user =  Contexts.Access.Users.get_by_username(username)
+    %{user: user}
   end
 
   defp construct_socket_msg(encoding, compression, data) do

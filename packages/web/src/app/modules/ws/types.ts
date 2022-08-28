@@ -6,6 +6,7 @@ export type User = {
   displayName: string;
   bio: string;
   gender: string;
+  schoolName: string;
   genderToShow: string;
   location: string;
   avatarUrl: string;

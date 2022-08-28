@@ -12,13 +12,11 @@ interface AppsProps {}
 export const App: React.FC<AppsProps> = () => {
   return (
     <BrowserRouter>
-      <WaitForWsConnect>
-        <PageWrapper>
-          <CenterLayout>
-            <AppRoutes />
-          </CenterLayout>
-        </PageWrapper>
-      </WaitForWsConnect>
+      <PageWrapper>
+        <CenterLayout>
+          <AppRoutes />
+        </CenterLayout>
+      </PageWrapper>
     </BrowserRouter>
   );
 };
