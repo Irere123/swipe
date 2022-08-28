@@ -107,7 +107,7 @@ defmodule Router.SocketHandler do
         "auth" ->
           %{
             "accessToken" => accessToken,
-            "refreshToken" => refreshToken,
+            "refreshToken" => refreshToken
           } = json["d"]
 
           case Api.Utils.TokenUtils.tokens_to_user_id(accessToken, refreshToken) do
@@ -126,7 +126,7 @@ defmodule Router.SocketHandler do
                   user_id: user_id,
                   username: user.username,
                   avatar_url: user.avatarUrl,
-                  display_name: user.displayName,
+                  display_name: user.displayName
                 )
 
                 UserSession.set_pid(user_id, self())
@@ -134,7 +134,6 @@ defmodule Router.SocketHandler do
                 if tokens do
                   UserSession.new_tokens(user_id, tokens)
                 end
-
 
                 {:reply,
                  construct_socket_msg(state.encoding, state.compression, %{

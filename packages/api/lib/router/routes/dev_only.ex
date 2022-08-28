@@ -30,7 +30,6 @@ defmodule Router.Routes.DevOnly do
                     gender: "Male",
                     genderToShow: "Male",
                     schoolName: "Elixir",
-                    birthday: DateTime.now!("UTC"),
                     location: "Musanze, Rwanda",
                     avatarUrl: "https://placekitten.com/200/200",
                     bio:
