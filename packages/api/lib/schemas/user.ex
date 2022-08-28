@@ -5,18 +5,29 @@ defmodule Schemas.User do
 
   @derive {Jason.Encoder, ~w(
     id username displayName bio avatarUrl schoolName gender
-    birthday class
+    birthday class genderToShow location shadowBanned
   )a}
   @primary_key {:id, :binary_id, []}
   schema "users" do
     field(:username, :string)
     field(:displayName, :string)
     field(:bio, :string)
+    field(:instagramId, :string)
+    field(:instagramAccessToken, :string)
+    field(:facebookId, :string)
+    field(:twitterId, :string)
+    field(:twitterAccessToken, :string)
     field(:avatarUrl, :string)
     field(:schoolName, :string)
     field(:class, :string)
     field(:gender, :string)
     field(:birthday, :naive_datetime)
+    field(:genderToShow, :map)
+    field(:location, :string)
+    field(:tokenVersion, :integer, default: 1)
+    field(:shadowBanned, :boolean, default: false)
+
+    timestamps()
   end
 
   def insert_changeset(user, attrs) do
