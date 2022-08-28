@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { useTokenStore } from "./modules/auth/useTokenStore";
 import { FeedPage } from "./pages/FeedPage";
 import { Login } from "./pages/Login";
+import { ViewUserPage } from "./pages/ViewUserPage";
 
 interface AppRoutesProps {}
 
@@ -19,6 +20,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = () => {
         ) : (
           <React.Fragment>
             <Route path="/" element={<FeedPage />} />
+            <Route path="/user/:username" element={<ViewUserPage />} />
           </React.Fragment>
         )}
       </Route>
