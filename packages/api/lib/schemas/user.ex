@@ -3,10 +3,6 @@ defmodule Schemas.User do
 
   import Ecto.Changeset
 
-  @derive {Jason.Encoder, ~w(
-    id username displayName bio avatarUrl schoolName gender
-    birthday class genderToShow location shadowBanned
-  )a}
   @primary_key {:id, :binary_id, []}
   schema "users" do
     field(:username, :string)
@@ -35,5 +31,19 @@ defmodule Schemas.User do
     |> cast(attrs, [:username, :displayName, :avatarUrl])
     |> validate_length(:username, min: 6, max: 50)
     |> validate_required([:username, :avatarUrl, :bio])
+  end
+
+
+  defimpl Jason.Encoder do
+    @fields ~w(
+      id username displayName bio avatarUrl schoolName gender
+      birthday class genderToShow location shadowBanned
+    )a
+
+    def encode(user, opts) do
+      user
+      |> Map.take(@fields)
+      |> Jason.Encoder.encode(opts)
+    end
   end
 end

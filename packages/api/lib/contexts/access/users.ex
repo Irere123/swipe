@@ -1,4 +1,5 @@
 defmodule Contexts.Access.Users do
+  alias Schemas.User
   alias Contexts.Queries.Users, as: Query
 
   def get_by_id(user_id) do

@@ -5,17 +5,11 @@ defmodule Api.Utils.TokenUtils do
 
   def create_tokens(user) do
     %{
-      accessToken: AccessToken.generate_and_sign!(
-        %{"userId" => user.id},
-         Joken.Signer.create("HS256", Application.get_env(:api, :access_token_secret)
-      )),
-      refreshToken:
-        RefreshToken.generate_and_sign!(%{
-          "userId" => user.id,
-          "tokenVersion" => user.tokenVersion
-        },
-        Joken.Signer.create("HS256", Application.get_env(:api, :access_token_secret)
-        ))
+      accessToken: AccessToken.generate_and_sign!(%{"userId" => user.id}),
+      refreshToken: RefreshToken.generate_and_sign!(%{
+        "userId" => user.id,
+        "tokenVersion" => user.tokenVersion
+      })
     }
   end
 

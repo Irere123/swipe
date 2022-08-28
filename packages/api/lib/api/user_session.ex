@@ -13,7 +13,7 @@ defmodule Api.UserSession do
   #################################################################################
   # REGISTRY AND SUPERVISION BOILERPLATE
 
-  defp via(user_id), do: {:via, Registry, {Onion.UserSessionRegistry, user_id}}
+  defp via(user_id), do: {:via, Registry, {Api.UserSessionRegistry, user_id}}
 
   defp cast(user_id, params), do: GenServer.cast(via(user_id), params)
   defp call(user_id, params), do: GenServer.call(via(user_id), params)
