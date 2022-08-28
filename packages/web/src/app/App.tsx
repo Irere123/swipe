@@ -4,6 +4,7 @@ import { CenterLayout } from "./components/CenterLayout";
 import { PageWrapper } from "./components/PageWrapper";
 import { useSocketStatus } from "./global-stores/useSocketStatus";
 import { useTokenStore } from "./modules/auth/useTokenStore";
+import { WaitForWsConnect } from "./modules/auth/WaitForWsConnect";
 import { AppRoutes } from "./Routes";
 
 interface AppsProps {}
@@ -11,11 +12,13 @@ interface AppsProps {}
 export const App: React.FC<AppsProps> = () => {
   return (
     <BrowserRouter>
-      <PageWrapper>
-        <CenterLayout>
-          <AppRoutes />
-        </CenterLayout>
-      </PageWrapper>
+      <WaitForWsConnect>
+        <PageWrapper>
+          <CenterLayout>
+            <AppRoutes />
+          </CenterLayout>
+        </PageWrapper>
+      </WaitForWsConnect>
     </BrowserRouter>
   );
 };

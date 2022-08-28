@@ -32,11 +32,13 @@ export const MainLayout: React.FC<{ children?: React.ReactNode }> = ({
                 <Codicon name="notifications" />
               </BoxedIcon>
             </Link>
-            <UserAvatar
-              src={user.avatarUrl}
-              size="sm"
-              username={user.username}
-            />
+            <Link to={`/user/${user.username}`}>
+              <UserAvatar
+                src={user.avatarUrl}
+                size="sm"
+                username={user.username}
+              />
+            </Link>
           </div>
         </div>
         {children}
