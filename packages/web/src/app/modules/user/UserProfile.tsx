@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { modalConfirm } from "../../components/ConfirmModal";
+import { useTypeSafeUpdateQuery } from "../../shared-hooks/useTypeSafeUpdateQuery";
 import { useTokenStore } from "../auth/useTokenStore";
 import { User } from "../ws/types";
 import { EditProfileModal } from "./EditProfileModal";
@@ -14,9 +15,21 @@ interface Props {
 export const UserProfile: React.FC<Props> = ({ user, isCurrentUser }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const navigate = useNavigate();
+  const updater = useTypeSafeUpdateQuery();
 
   return (
     <div className="flex flex-1 flex-col w-full h-full">
+      {openEditModal && (
+        <EditProfileModal
+          isOpen={openEditModal}
+          onRequestClose={() => setOpenEditModal(!openEditModal)}
+          onEdit={(d) => {
+            updater(["getUserProfile", d.username], (x) =>
+              !x ? x : { ...x, ...d }
+            );
+          }}
+        />
+      )}
       <div className="sm:w-2/4 m-auto mt-3 flex flex-col gap-2">
         <img
           className="rounded-lg shadow-lg"
@@ -48,17 +61,11 @@ export const UserProfile: React.FC<Props> = ({ user, isCurrentUser }) => {
           )}
         </div>
         <div>
-          <p className="text-primary-100 text-xl">{user.displayName}</p>
+          <p className="text-primary-100 text-xl">{user.username}</p>
           <p className="text-primary-100">{user.schoolName}</p>
           <p className="text-primary-200">{user.bio}</p>
         </div>
       </div>
-      {openEditModal && (
-        <EditProfileModal
-          isOpen={openEditModal}
-          onRequestClose={() => setOpenEditModal(!openEditModal)}
-        />
-      )}
     </div>
   );
 };

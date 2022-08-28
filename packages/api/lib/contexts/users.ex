@@ -11,6 +11,7 @@ defmodule Contexts.Users do
   defdelegate get_by_username(username), to: Contexts.Access.Users
 
   # MUTATION FUNCTIONS
+  defdelegate edit_profile(user_id, data), to: Contexts.Mutations.Users
   defdelegate bulk_insert(users), to: Contexts.Mutations.Users
   defdelegate set_online(user_id), to: Contexts.Mutations.Users
   defdelegate set_offline(user_id), to: Contexts.Mutations.Users

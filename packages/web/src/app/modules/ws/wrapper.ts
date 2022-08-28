@@ -14,5 +14,8 @@ export const wrap = (connection: Connection) => ({
     ): Promise<{ user: User } | { error: string }> =>
       connection.fetch("get_user_profile", { username }) as any,
   },
-  mutation: {},
+  mutation: {
+    editProfile: (data: { username: string; bio: string }): Promise<any> =>
+      connection.fetch("edit_profile", { data }),
+  },
 });

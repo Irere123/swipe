@@ -196,6 +196,11 @@ defmodule Router.SocketHandler do
     %{user: user}
   end
 
+  def f_handler("edit_profile", %{"data" => data}, state) do
+    Api.User.edit_profile(state.user_id, data)
+    %{}
+  end
+
   defp construct_socket_msg(encoding, compression, data) do
     data =
       case encoding do

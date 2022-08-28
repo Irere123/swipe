@@ -1,5 +1,14 @@
 defmodule Contexts.Mutations.Users do
+  alias Schemas.User
   alias Contexts.Queries.Users, as: Query
+
+  def edit_profile(user_id, data) do
+    user_id
+    |> Contexts.Users.get_by_id()
+    |> User.edit_changeset(data)
+    |> Repo.update()
+  end
+
 
   def bulk_insert(users) do
     Repo.insert_all(

@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useTokenStore } from "./modules/auth/useTokenStore";
+import { ConnectionTaken } from "./pages/ConnectionTaken";
 import { FeedPage } from "./pages/FeedPage";
 import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
@@ -24,6 +25,7 @@ export const AppRoutes: React.FC<AppRoutesProps> = () => {
           <React.Fragment>
             <Route path="/" element={<FeedPage />} />
             <Route path="/user/:username" element={<ViewUserPage />} />
+            <Route path="/connection-taken" element={<ConnectionTaken />} />
           </React.Fragment>
         )}
       </Route>

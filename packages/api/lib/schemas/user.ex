@@ -33,6 +33,12 @@ defmodule Schemas.User do
     |> validate_required([:username, :avatarUrl, :bio])
   end
 
+  def edit_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:username, :bio])
+    |> validate_required([:bio, :username])
+  end
+
 
   defimpl Jason.Encoder do
     @fields ~w(
