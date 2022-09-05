@@ -113,8 +113,9 @@ const main = async () => {
     res.json({ error: "Not found" }).status(404);
   });
   app.get("/me", isAuth(), async (req, res) => {
-    const user = await prisma.user.findFirst({ where: { id: req.userId } });
-
+    const user = await prisma.user.findFirst({
+      where: { id: req.userId },
+    });
     return res.json({ user }).status(404);
   });
 

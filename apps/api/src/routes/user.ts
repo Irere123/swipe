@@ -4,8 +4,9 @@ import { Router } from "express";
 const router = Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
-  const user = await prisma.user.findFirst({ where: { id: req.userId } });
+router.get("/:id", async (req, res) => {
+  const id = req.query.id as string;
+  const user = await prisma.user.findFirst({ where: { id } });
 
   res.json(user);
 });
