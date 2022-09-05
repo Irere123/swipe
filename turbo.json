@@ -11,6 +11,5 @@
     "dev": {
       "cache": false
     }
-  },
-  "globalDependencies": [".env", "tsconfig.json", "$NODE_ENV"]
+  }
 }

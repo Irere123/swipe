@@ -1,17 +1,28 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useTokenStore } from "../global-store/useTokenStore";
 import { PromptModal } from "./components/PromptModal";
 import { CenterLayout } from "./modules/layouts/CenterLayout";
 import { PageWrapper } from "./modules/layouts/PageWrapper";
 import LoginPage from "./pages/login";
 
 const App: React.FC = () => {
+  const hasTokens = useTokenStore((s) => !!s.accessToken && !!s.refreshToken);
+
   return (
     <BrowserRouter>
       <PageWrapper>
         <CenterLayout>
           <Routes>
-            <Route index element={<LoginPage />} />
+            <Route path="/">
+              {!hasTokens ? (
+                <Route index element={<LoginPage />} />
+              ) : (
+                <React.Fragment>
+                  <Route path="/" element={<>hellow rodl</>} />
+                </React.Fragment>
+              )}
+            </Route>
           </Routes>
         </CenterLayout>
         <PromptModal />
