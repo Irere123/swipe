@@ -21,11 +21,10 @@ router.get("/test-info", async (req, res) => {
         avatarUrl: "http://placekitten.com/200/200",
       },
     });
-
     res.json(createTokens(u));
+  } else {
+    res.json(createTokens(user!));
   }
-
-  res.json(createTokens(user));
 });
 
 export default router;

@@ -1,4 +1,5 @@
 import express, { json } from "express";
+import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import { DevOnly } from "./routes";
 
@@ -7,6 +8,7 @@ const prisma = new PrismaClient();
 const main = async () => {
   const app = express();
   app.use(json());
+  app.use(cors({ origin: "*" }));
 
   app.get("/", (_req, res) => {
     res.json({ error: "Not found" }).status(404);
