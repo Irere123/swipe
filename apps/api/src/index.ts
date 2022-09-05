@@ -1,14 +1,19 @@
-import express from "express";
+import express, { json } from "express";
 import { PrismaClient } from "@prisma/client";
+import { DevOnly } from "./routes";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   const app = express();
+  app.use(json());
 
   app.get("/", (_req, res) => {
-    res.send("Hello world");
+    res.json({ error: "Not found" }).status(404);
   });
+
+  app.use("/dev", DevOnly);
+
   app.listen(4000, () => {
     console.log("🚀🚀🚀 Running API server at http://localhost:4000");
   });

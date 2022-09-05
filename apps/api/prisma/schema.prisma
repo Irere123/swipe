@@ -16,7 +16,7 @@ model User {
   birthday     String
   gender       String
   location     String
-  tokenVersion String
+  tokenVersion Int      @default(1)
   createdAt    DateTime @default(now())
 
   @@map("users")
