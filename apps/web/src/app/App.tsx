@@ -4,6 +4,7 @@ import { useTokenStore } from "../global-store/useTokenStore";
 import { PromptModal } from "./components/PromptModal";
 import { CenterLayout } from "./modules/layouts/CenterLayout";
 import { PageWrapper } from "./modules/layouts/PageWrapper";
+import HomePage from "./pages/feed";
 import LoginPage from "./pages/login";
 
 const App: React.FC = () => {
@@ -19,7 +20,7 @@ const App: React.FC = () => {
                 <Route index element={<LoginPage />} />
               ) : (
                 <React.Fragment>
-                  <Route path="/" element={<>hellow rodl</>} />
+                  <Route path="/" element={<HomePage />} />
                 </React.Fragment>
               )}
             </Route>
