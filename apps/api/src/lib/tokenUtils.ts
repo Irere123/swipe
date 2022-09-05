@@ -15,14 +15,18 @@ export const createTokens = (
 ): { refreshToken: string; accessToken: string } => {
   const refreshToken = sign(
     { userId: user.id, tokenVersion: user.tokenVersion },
-    "secewkqwp320",
+    process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "14d",
+      expiresIn: "30d",
     }
   );
-  const accessToken = sign({ userId: user.id }, "iuewew", {
-    expiresIn: "15min",
-  });
+  const accessToken = sign(
+    { userId: user.id },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "60min",
+    }
+  );
 
   return { refreshToken, accessToken };
 };

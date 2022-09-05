@@ -5,16 +5,29 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Strategy as TwitterStrategy } from "passport-twitter";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-import { DevOnly } from "./routes";
+import { DevOnly, UserOnly } from "./routes";
 import { FBProfile, TWProfile } from "./types/Profiles";
 import { createTokens } from "./lib/tokenUtils";
+import { __prod__ } from "./lib/constants";
+import { isAuth } from "./lib/isAuth";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   const app = express();
   app.use(express.json());
-  app.use(cors({ origin: "*" }));
+  app.use(
+    cors({
+      origin: "*",
+      maxAge: __prod__ ? 86400 : undefined,
+      exposedHeaders: [
+        "access-token",
+        "refresh-token",
+        "content-type",
+        "content-length",
+      ],
+    })
+  );
   app.use(passport.initialize());
 
   passport.use(
@@ -99,8 +112,15 @@ const main = async () => {
   app.get("/", (_req, res) => {
     res.json({ error: "Not found" }).status(404);
   });
+  app.get("/me", isAuth(), async (req, res) => {
+    const user = await prisma.user.findFirst({ where: { id: req.userId } });
+
+    return res.json({ user }).status(404);
+  });
 
   app.use("/dev", DevOnly);
+  app.use("/user", isAuth(), UserOnly);
+
   app.get(
     "/auth/twitter",
     passport.authenticate("twitter", { session: false })
