@@ -1,4 +1,6 @@
 import React from "react";
+import { Button } from "../../components/Button";
+import { modalPrompt } from "../../components/PromptModal";
 import { BodyWrapper } from "../layouts/BodyWrapper";
 import { CenterLayout } from "../layouts/CenterLayout";
 import { Wrapper } from "../layouts/Wrapper";
@@ -17,10 +19,12 @@ export const LoginPage: React.FC = () => {
             BeReal Love.
           </div>
           <div className={`m-auto w-300`}>
-            <div style={{ backgroundColor: "#333" }} onClick={() => {}}>
-              <span className={`inline-flex items-center`}>
-                <p className={`ml-3`}>H</p>
-              </span>
+            <div className="flex flex-col gap-2 w-full">
+              <Button color="secondary">Login with Instagram</Button>
+              <Button color="secondary">Login with Facebook</Button>
+              <Button onClick={() => modalPrompt("Username", () => {})}>
+                Create test user
+              </Button>
             </div>
           </div>
         </BodyWrapper>
