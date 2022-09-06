@@ -9,6 +9,7 @@ import { CenterLayout } from "./modules/layouts/CenterLayout";
 import { PageWrapper } from "./modules/layouts/PageWrapper";
 import HomePage from "./pages/feed";
 import LoginPage from "./pages/login";
+import MessagesPage from "./pages/messages";
 
 const App: React.FC = () => {
   const hasTokens = useTokenStore((s) => !!s.accessToken && !!s.refreshToken);
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                 ) : (
                   <React.Fragment>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/messages" element={<MessagesPage />} />
                   </React.Fragment>
                 )}
               </Route>
