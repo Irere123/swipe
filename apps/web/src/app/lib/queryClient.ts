@@ -17,7 +17,6 @@ export const defaultQueryFn = async ({ queryKey }: { queryKey: string }) => {
   }
   const _accessToken = r.headers.get("access-token");
   const _refreshToken = r.headers.get("refresh-token");
-  console.log(_accessToken);
 
   if (_accessToken && _refreshToken) {
     useTokenStore.getState().setTokens({

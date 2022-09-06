@@ -3,3 +3,8 @@ export { default as SvgSolidTwitter } from "./SvgSolidTwitter";
 export { default as SvgSolidZap } from "./SvgSolidZap";
 export { default as SvgSolidNotification } from "./SvgSolidNotification";
 export { default as SvgSolidCompass } from "./SvgSolidCompass";
+export { default as SvgSolidHeart } from "./SvgSolidHeart";
+export { default as SvgSolidCheck } from "./SvgSolidCheck";
+export { default as SvgSolidCross } from "./SvgSolidCross";
+export { default as SvgSolidPlus } from "./SvgSolidPlus";
+export { default as SvgSolidStar } from "./SvgSolidStar";
