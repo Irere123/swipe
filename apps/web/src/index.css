@@ -1,48 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
-@import "tailwindcss/base";
-@import "tailwindcss/utilities";
-@import "tailwindcss/components";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --color-primary-100: #edeff0;
-  --color-primary-200: #d5dadc;
-  --color-primary-300: #b9c1c5;
-  --color-primary-400: #9ea8ae;
-  --color-primary-500: #829097;
-  --color-primary-600: #68767d;
-  --color-primary-700: #3a4246;
-  --color-primary-800: #23272a;
-  --color-primary-900: #0c0d0e;
-
-  --color-accent: #fd4d4d;
-  --color-accent-hover: #fd6868;
-  --color-accent-disabled: #f5bfbf;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font-size: 4rem;
-}
-
-h2 {
-  font-size: 2.8rem;
-}
-
-h3 {
-  font-size: 2rem;
-}
-
-h4 {
-  font-size: 1.4rem;
-}
-
-html,
-body,
-#root {
-  background-color: var(--color-primary-900);
-  width: 100%;
-  height: 100%;
-}
-
-html {
-  position: fixed;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
