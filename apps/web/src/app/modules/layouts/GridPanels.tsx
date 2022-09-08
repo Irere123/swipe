@@ -28,11 +28,11 @@ export const LeftPanel: Component = () => {
             <SolidHome width={20} height={20} />
           </BoxedIcon>
         </NavLink>
-        <NavLink href="/leaderboard" activeClass="text-accent">
+        <Link href="/leaderboard">
           <BoxedIcon>
             <SolidFriends />
           </BoxedIcon>
-        </NavLink>
+        </Link>
         <div class="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
           {Array.from([1, 2, 3]).map(() => (
             <Link href="/u/us">
@@ -48,14 +48,12 @@ export const LeftPanel: Component = () => {
 export const MiddlePanel: Component<Props> = ({ children }) => {
   return (
     <GridPanel>
-      <FixedGridPanel>
-        <div>
-          <HeaderWrapper>
-            <MiddleHeader />
-            <RightHeader />
-          </HeaderWrapper>
-        </div>
-      </FixedGridPanel>
+      <div class="flex pt-5 flex-col sticky top-0">
+        <HeaderWrapper>
+          <MiddleHeader />
+          <RightHeader />
+        </HeaderWrapper>
+      </div>
       {children}
     </GridPanel>
   );

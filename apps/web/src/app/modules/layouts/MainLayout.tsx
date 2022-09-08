@@ -1,6 +1,4 @@
 import { Component, JSX } from "solid-js";
-import { Header } from "../../components/header/Header";
-import { RightHeader } from "../../components/header/RightHeader";
 import { MainInnerGrid } from "../../components/MainGrid";
 import { LeftPanel, MiddlePanel } from "./GridPanels";
 

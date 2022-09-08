@@ -7,7 +7,7 @@ import { MainLayout } from "../modules/layouts/MainLayout";
 const HomePage: Component = () => {
   return (
     <MainLayout>
-      <div class="flex flex-col overflow-y-auto">
+      <div class="flex flex-col">
         {Array.from([1, 3, 4, 5, 6, 7, 6, 6]).map(() => (
           <div class="flex gap-3 border-b-2 border-primary-dark mt-3">
             <div>
