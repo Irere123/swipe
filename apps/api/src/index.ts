@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
+import http from "http";
 import { PrismaClient } from "@prisma/client";
+import Server from "./lib/Server";
 
 export const prisma = new PrismaClient();
 
@@ -8,12 +10,17 @@ const main = async () => {
   const app = express();
   app.use(cors({ origin: "*" }));
   app.use(express.json());
+  const httpServer = http.createServer(app);
+  const server = Server({ httpServer });
 
-  app.get("/", (_, res) => {
-    res.send("hello world");
+  server.onConnection((conn) => {
+    conn.onOperator("ping", (e) => {
+      console.log(e.data);
+    });
+    conn.sendOp("hello:world", { hello: "How are you doing" });
   });
 
-  app.listen(4000, () => {
+  httpServer.listen(4000, () => {
     console.log("🚀🚀🚀 API Server running on port 4000");
   });
 };
