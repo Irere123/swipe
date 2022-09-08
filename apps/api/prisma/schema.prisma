@@ -6,3 +6,105 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                     String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username               String
+  displayName            String?
+  bio                    String?
+  avatarUrl              String?
+  birthday               DateTime         @default(now()) @db.Timestamptz()
+  schoolName             String?
+  location               String?
+  gender                 String
+  numLikes               Int              @default(0)
+  goal                   String
+  online                 Boolean          @default(false)
+  lastOnline             DateTime         @default(now()) @db.Timestamptz()
+  tokenVersion           Int              @default(1)
+  messageRequestSettings Boolean          @default(true)
+  facebookId             String?
+  facebookAccessToken    String?
+  twitterId              String?
+  twitterAccessToken     String?
+  googleId               String?
+  googleAccessToken      String?
+  matches1               Match[]          @relation("user1")
+  matches2               Match[]          @relation("user2")
+  messagesSent           Message[]        @relation("sender")
+  messagesReceived       Message[]        @relation("receiver")
+  messageRequestSent     MessageRequest[] @relation("senderMR")
+  messageRequestReceived MessageRequest[] @relation("receiverMR")
+  views                  View[]           @relation("viewer")
+  targets                View[]           @relation("target")
+  reports                Report[]         @relation("reporter")
+  reportsAgainstMe       Report[]         @relation("targetReport")
+  createdAt              DateTime         @default(now()) @db.Timestamptz()
+
+  @@map("users")
+}
+
+model Match {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  read1     Boolean   @default(false)
+  read2     Boolean   @default(false)
+  unmatched Boolean   @default(false)
+  createdAt DateTime  @default(now()) @db.Timestamptz()
+  user1     User?     @relation(name: "user1", fields: [userId1], references: [id])
+  userId1   String?   @db.Uuid
+  user2     User?     @relation(name: "user2", fields: [userId2], references: [id])
+  userId2   String?   @db.Uuid
+  messages  Message[] @relation("match")
+
+  @@map("matches")
+}
+
+model Message {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text       String
+  match      Match?   @relation("match", fields: [matchId], references: [id], onDelete: SetNull)
+  matchId    String?  @db.Uuid
+  sender     User?    @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId   String?  @db.Uuid
+  receiver   User?    @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId String?  @db.Uuid
+  createAt   DateTime @default(now()) @db.Timestamptz()
+
+  @@map("messages")
+}
+
+model MessageRequest {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text       String
+  sender     User?    @relation("senderMR", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId   String?  @db.Uuid
+  receiver   User?    @relation("receiverMR", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId String?  @db.Uuid
+  createAt   DateTime @default(now()) @db.Timestamptz()
+
+  @@map("message_requests")
+}
+
+model View {
+  viewer    User?    @relation("viewer", fields: [viewerId], references: [id], onDelete: Cascade)
+  viewerId  String   @db.Uuid
+  target    User?    @relation("target", fields: [targetId], references: [id], onDelete: Cascade)
+  targetId  String   @db.Uuid
+  liked     Boolean?
+  createdAt DateTime @default(now())
+
+  @@id([targetId, viewerId])
+  @@map("views")
+}
+
+model Report {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reporter   User?    @relation("reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  reporterId String   @db.Uuid
+  target     User?    @relation("targetReport", fields: [targetId], references: [id], onDelete: Cascade)
+  targetId   String   @db.Uuid
+  message    String
+  createdAt  DateTime @default(now()) @db.Timestamptz()
+
+  @@map("reports")
+}
