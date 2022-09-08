@@ -5,7 +5,7 @@
   "description": "",
   "scripts": {
     "start": "vite",
-    "dev": "vite",
+    "dev": "vite --port 3002",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -27,6 +27,7 @@
     "solid-js": "^1.5.1",
     "solid-zustand": "^1.4.2",
     "uuid": "^9.0.0",
-    "zustand": "^4.1.1"
+    "zustand": "^4.1.1",
+    "@swipe/ui": "*"
   }
 }

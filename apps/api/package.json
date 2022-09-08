@@ -1,9 +1,15 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon dist/index.js",
+    "start": "node dist/index.js",
+    "watch": "tsc -w",
+    "build": "tsc"
+  },
   "dependencies": {
     "@prisma/client": "^4.3.1",
     "cors": "^2.8.5",
