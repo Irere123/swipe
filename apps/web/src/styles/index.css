@@ -5,6 +5,7 @@
 
 :root {
   --color-primary: #fff;
+  --color-primary-dark: #efe7dc;
 
   --color-accent: #fd4d4d;
   --color-accent-hover: #fd6868;
@@ -32,7 +33,7 @@ h4 {
 /* for firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-translucent) rgba(0, 0, 0, 0);
+  scrollbar-color: var(--color-primary-dark) rgba(0, 0, 0, 0);
 }
 
 /* for non-firefox */
@@ -46,7 +47,7 @@ h4 {
   display: initial;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-translucent);
+  background-color: var(--color-primary-dark);
   border-radius: 5px;
 }
 

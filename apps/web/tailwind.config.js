@@ -34,6 +34,7 @@ module.exports = {
       transparent: "transparent",
       primary: {
         DEFAULT: "var(--color-primary)",
+        dark: "var(--color-primary-dark)",
       },
       accent: {
         DEFAULT: "var(--color-accent)",
@@ -43,6 +44,12 @@ module.exports = {
       black: "#000",
     },
     extend: {
+      spacing: {
+        "5l": "10rem",
+        "n1/2": "-50%",
+        400: "400px",
+        300: "300px",
+      },
       boxShadow: {
         outlineLg: "0 0 0 4pt var(--color-primary-800)",
         outlineMd: "0 0 0 2pt var(--color-primary-800)",

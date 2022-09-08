@@ -13,7 +13,7 @@ export const Input: Component<InputProps> = ({
   transparent,
   ...props
 }) => {
-  const bg = transparent ? `bg-transparent` : `bg-[#f6f6f6]`;
+  const bg = transparent ? `bg-transparent` : `bg-primary-dark`;
   const ring = error ? `ring-1 ring-secondary` : "";
   const cn = `w-full py-2 px-4 rounded-md text-black placeholder-primary-300 focus:outline-none ${bg} ${ring} ${props.class}`;
 

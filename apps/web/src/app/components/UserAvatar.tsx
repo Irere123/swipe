@@ -1,9 +1,9 @@
 import { Component, createSignal } from "solid-js";
 
 export const avatarSizeMap = {
-  default: "80px",
-  lg: "60px",
-  md: "50px",
+  default: "55px",
+  lg: "45px",
+  md: "40px",
   sm: "35px",
   xs: "30px",
   xxs: "20px",
@@ -94,9 +94,7 @@ export const UserAvatar: Component<AvatarProps> = ({
       />
       {isOnline && (
         <span
-          class={
-            "rounded-full absolute box-content bg-accent border-primary-800"
-          }
+          class={"rounded-full absolute box-content bg-accent border-primary"}
           style={sizeStyle}
           data-testid="online-indictor"
         ></span>

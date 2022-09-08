@@ -33,7 +33,7 @@ export const LeftPanel: Component = () => {
             <SolidFriends />
           </BoxedIcon>
         </NavLink>
-        <div class="flex flex-col gap-2 border-t-2 border-t-[#f6f6f6] pt-2">
+        <div class="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
           {Array.from([1, 2, 3]).map(() => (
             <Link href="/u/us">
               <UserAvatar src={avatar} size="sm" />
@@ -48,12 +48,14 @@ export const LeftPanel: Component = () => {
 export const MiddlePanel: Component<Props> = ({ children }) => {
   return (
     <GridPanel>
-      <div class="h-10 pt-5">
-        <HeaderWrapper>
-          <MiddleHeader />
-          <RightHeader />
-        </HeaderWrapper>
-      </div>
+      <FixedGridPanel>
+        <div>
+          <HeaderWrapper>
+            <MiddleHeader />
+            <RightHeader />
+          </HeaderWrapper>
+        </div>
+      </FixedGridPanel>
       {children}
     </GridPanel>
   );
