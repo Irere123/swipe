@@ -12,9 +12,7 @@ export const MainLayout: Component<MainLayoutProps> = ({ children }) => {
   return (
     <div class="flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-700 ">
       <MainInnerGrid>
-        <LeftPanel>
-          <RightHeader />
-        </LeftPanel>
+        <LeftPanel />
         <MiddlePanel>{children}</MiddlePanel>
       </MainInnerGrid>
     </div>

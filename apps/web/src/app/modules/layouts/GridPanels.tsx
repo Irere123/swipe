@@ -1,6 +1,6 @@
 import { Component, JSX } from "solid-js";
 import { FixedGridPanel, GridPanel } from "../../components/GridPanels";
-import { LeftHeader } from "../../components/header/LeftHeader";
+import logo from "../../../assets/logo.png";
 import { MiddleHeader } from "../../components/header/MiddleHeader";
 import { RightHeader } from "../../components/header/RightHeader";
 
@@ -12,13 +12,17 @@ const HeaderWrapper: Component<Props> = ({ children }) => (
   <div class={`flex mb-7 h-6 items-center`}>{children}</div>
 );
 
-export const LeftPanel: Component<Props> = ({ children }) => {
+export const LeftPanel: Component = () => {
   return (
     <FixedGridPanel>
       <HeaderWrapper>
-        <LeftHeader />
+        <div>
+          <img src={logo} alt="Logo" />
+        </div>
       </HeaderWrapper>
-      {children}
+      <div>
+        <p>Home</p>
+      </div>
     </FixedGridPanel>
   );
 };
@@ -26,7 +30,7 @@ export const LeftPanel: Component<Props> = ({ children }) => {
 export const MiddlePanel: Component<Props> = ({ children }) => {
   return (
     <GridPanel>
-      <div>
+      <div class="pt-5">
         <HeaderWrapper>
           <MiddleHeader />
           <RightHeader />
