@@ -18,36 +18,36 @@ export const onlineIndicatorStyleMap = {
     borderWidth: "4px",
   },
   lg: {
-    width: "12px",
-    height: "12px",
-    right: "2px",
-    bottom: "-2px",
-    borderWidth: "2px",
-  },
-  md: {
     width: "10px",
     height: "10px",
     right: "2px",
     bottom: "-2px",
     borderWidth: "2px",
   },
-  sm: {
+  md: {
     width: "8px",
     height: "8px",
     right: "2px",
     bottom: "-2px",
     borderWidth: "2px",
   },
-  xs: {
+  sm: {
     width: "6px",
     height: "6px",
+    right: "2px",
+    bottom: "-2px",
+    borderWidth: "2px",
+  },
+  xs: {
+    width: "4px",
+    height: "4px",
     right: "1px",
     bottom: "-1px",
     borderWidth: "1px",
   },
   xxs: {
-    width: "4px",
-    height: "4px",
+    width: "2px",
+    height: "2px",
     right: "0px",
     bottom: "-1px",
     borderWidth: "1px",
