@@ -2,8 +2,8 @@ require("dotenv-safe").config();
 import express from "express";
 import cors from "cors";
 import http from "http";
+import { server } from "websocket";
 import { PrismaClient } from "@prisma/client";
-import Server from "./lib/Server";
 import { __prod__ } from "./lib/constants";
 import { DevOnly } from "./routes";
 
@@ -19,17 +19,10 @@ const main = async () => {
   }
 
   const httpServer = http.createServer(app);
-  const server = Server({ httpServer });
+  const socket = new server({ httpServer });
 
-  server.onConnection((conn) => {
-    conn.onOperator("ping", (e) => {
-      console.log(e.data);
-    });
-
-    conn.onOperator("auth", (e) => {
-      console.log(e.op);
-      e.reply({ user: { id: 22 } }, "auth-good");
-    });
+  socket.on("request", (request) => {
+    request.accept(null, request.origin);
   });
 
   httpServer.listen(4000, () => {

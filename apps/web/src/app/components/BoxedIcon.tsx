@@ -2,7 +2,7 @@ import React from "react";
 
 const colorMap = {
   "700": "bg-primary-700",
-  "800": "bg-primary-800",
+  primary: "bg-primary-dark",
   transparent: "bg-transparent",
 };
 

@@ -6,13 +6,15 @@ import { BoxedIcon } from "../BoxedIcon";
 import { Button } from "../Button";
 import {
   SolidBug,
+  SolidFacebook,
   SolidGoogle,
   SolidMoreVert,
   SolidPlus,
   SolidTwitter,
 } from "../icons";
 import { Modal } from "../Modal";
-import { modalPrompt } from "../PromptModal";
+import avatar from "../../../assets/avatar.jpg";
+import { UserAvatar } from "../UserAvatar";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -71,7 +73,7 @@ export const RightHeader: React.FC = () => {
               Continue with Twitter
             </LoginButton>
             <LoginButton>
-              <SolidPlus />
+              <SolidFacebook width={20} height={20} />
               Continue with Facebook
             </LoginButton>
             <LoginButton
@@ -89,6 +91,7 @@ export const RightHeader: React.FC = () => {
                   accessToken: d.accessToken,
                   refreshToken: d.refreshToken,
                 });
+                setOpen(!open);
                 push("/");
               }}
             >
@@ -106,8 +109,13 @@ export const RightHeader: React.FC = () => {
           </BoxedIcon>
         </>
       ) : (
-        <div>
-          <p>profile</p>
+        <div className="flex gap-3">
+          <BoxedIcon>
+            <SolidPlus />
+          </BoxedIcon>
+          <div>
+            <UserAvatar src={avatar} size="sm" />
+          </div>
         </div>
       )}
     </div>

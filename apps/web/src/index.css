@@ -36,7 +36,7 @@ h4 {
 /* for firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-dark) rgba(0, 0, 0, 0);
+  scrollbar-color: var(--color-accent-disabled) rgba(0, 0, 0, 0);
 }
 
 /* for non-firefox */
@@ -50,7 +50,7 @@ h4 {
   display: initial;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-accent-disabled);
   border-radius: 5px;
 }
 
