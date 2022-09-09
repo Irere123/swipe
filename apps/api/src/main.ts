@@ -14,6 +14,11 @@ const main = async () => {
   app.use(cors({ origin: "*" }));
   app.use(express.json());
 
+  app.get("/stats", async (_, res) => {
+    const numUsers = await prisma.user.count();
+    res.json({ numUsers });
+  });
+
   if (!__prod__) {
     app.use("/dev", DevOnly);
   }
