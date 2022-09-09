@@ -3,3 +3,4 @@ export { default as SolidHome } from "./SolidHome";
 export { default as SolidFriends } from "./SolidFriends";
 export { default as SolidSearch } from "./SolidSearch";
 export { default as SolidMoreVert } from "./SolidMoreVert";
+export { default as SolidPlus } from "./SolidPlus";
