@@ -18,7 +18,6 @@ export interface SocketConnectionObject {
   origin: string;
   onOperator(op: string, event: ClientOperatorCallback): void;
   onPayload(event: ClientMessageCallback): void;
-
   sendOp(op: string, payload: any): Promise<OperatorPayloadManager>;
   send(payload: any): Promise<MessagePayloadManager>;
   onClose(event: ConnectionCloseCallback): void;

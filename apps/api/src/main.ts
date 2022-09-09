@@ -25,7 +25,11 @@ const main = async () => {
     conn.onOperator("ping", (e) => {
       console.log(e.data);
     });
-    conn.sendOp("auth", { hello: "How are you doing" });
+
+    conn.onOperator("auth", (e) => {
+      console.log(e.op);
+      e.reply({ user: { id: 22 } }, "auth-good");
+    });
   });
 
   httpServer.listen(4000, () => {

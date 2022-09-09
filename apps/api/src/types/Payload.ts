@@ -20,12 +20,12 @@ interface PayloadManagerBase {
 }
 
 export interface MessagePayloadManager extends PayloadManagerBase {
-  reply(data: any): void;
+  reply(data: any, op?: string): void;
   onResponse(callback: (payload: MessagePayloadManager) => void): void;
 }
 
 export interface OperatorPayloadManager extends PayloadManagerBase {
-  reply(data: any): void;
+  reply(data: any, op?: string): void;
   onResponse(callback: (payload: OperatorPayloadManager) => void): void;
 }
 
@@ -40,6 +40,6 @@ export interface CreateRawPayloadOpts {
 
 export interface PayloadObject {
   op: string; // Operator code;
-  p: any | null; // Payload data;
+  d: any | null; // Payload data;
   ref: string; // Reference ID;
 }

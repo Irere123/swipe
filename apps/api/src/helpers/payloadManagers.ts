@@ -12,15 +12,15 @@ export function messagePayloadManager(
   { payload, meta: { timestamp, type } }: RawPayloadObject
 ): MessagePayloadManager {
   return {
-    data: payload.p,
+    data: payload.d,
     op: payload.op,
     parsed: payload,
     reference: payload.ref,
     timestamp,
     type,
-    reply(data) {
+    reply(data, op = "fetch_done") {
       const payloadBase = createRawPayload(
-        { op: this.op, p: data, ref: this.reference },
+        { op, d: data, ref: this.reference },
         { type: PayloadType.MessageResponse }
       );
 
@@ -44,15 +44,15 @@ export function operatorPayloadManager(
   { meta: { timestamp, type }, payload }: RawPayloadObject
 ): OperatorPayloadManager {
   return {
-    data: payload.p,
+    data: payload.d,
     op: payload.op,
     parsed: payload,
     reference: payload.ref,
     timestamp,
     type,
-    reply(data) {
+    reply(data, op = "fetch_done") {
       const payloadBase = createRawPayload(
-        { op: this.op, p: data, ref: this.reference },
+        { op, d: data, ref: this.reference },
         { type: PayloadType.OperatorResponse }
       );
 

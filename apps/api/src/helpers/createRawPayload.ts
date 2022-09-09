@@ -2,7 +2,7 @@ import {
   CreateRawPayloadOpts,
   PayloadObject,
   RawPayloadObject,
-} from "src/types/Payload";
+} from "../types/Payload";
 
 export default function CreateRawPayload(
   payload: PayloadObject,

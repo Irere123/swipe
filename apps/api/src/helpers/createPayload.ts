@@ -8,7 +8,7 @@ export default function createPayload(
 ): PayloadObject {
   return {
     op: op,
-    p: payload,
+    d: payload,
     ref: ref ?? uuid.v4(),
   };
 }
