@@ -1,11 +1,11 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "conc \"nodemon dist/index.js\" \"yarn watch\"",
+    "dev": "conc \"nodemon dist/main.js\" \"yarn watch\"",
     "start": "node dist/index.js",
     "watch": "tsc -w",
     "build": "tsc"

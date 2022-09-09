@@ -3,6 +3,8 @@ import cors from "cors";
 import http from "http";
 import { PrismaClient } from "@prisma/client";
 import Server from "./lib/Server";
+import { __prod__ } from "./lib/constants";
+import { DevOnly } from "./routes";
 
 export const prisma = new PrismaClient();
 
@@ -10,6 +12,11 @@ const main = async () => {
   const app = express();
   app.use(cors({ origin: "*" }));
   app.use(express.json());
+
+  if (!__prod__) {
+    app.use("/dev", DevOnly);
+  }
+
   const httpServer = http.createServer(app);
   const server = Server({ httpServer });
 
