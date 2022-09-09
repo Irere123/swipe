@@ -10,7 +10,9 @@ const sizeClassnames = {
 const colorClassnames = {
   primary:
     "text-button bg-accent transition duration-200 ease-in-out hover:bg-accent-hover disabled:text-accent-disabled disabled:bg-accent-hover",
-  transparent: "text-button bg-transparent border-2 border-primary-dark",
+  secondary:
+    "text-button bg-secondary transition duration-200 ease-in-out hover:bg-secondary-washed-out disabled:text-secondary-washed-out disabled:bg-secondary-washed-out",
+  transparent: "text-black bg-primary-dark border-2 border-primary-dark-2",
 };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

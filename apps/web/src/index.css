@@ -6,7 +6,10 @@
 :root {
   --color-primary: #fff;
   --color-primary-dark: #efe7dc;
-
+  --color-primary-dark-2: #f6f6f6;
+  --color-secondary-washed-out: #879eed;
+  --color-secondary: #5575e7;
+  --color-accent-glow: rgba(253, 77, 77, 0.3);
   --color-accent: #fd4d4d;
   --color-accent-hover: #fd6868;
   --color-accent-disabled: #f5bfbf;

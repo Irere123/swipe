@@ -34,8 +34,8 @@ export const LeftPanel: React.FC = () => {
           </BoxedIcon>
         </Link>
         <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
-          {Array.from([1, 2, 3]).map(() => (
-            <Link to="/u/us">
+          {Array.from([1, 2, 3]).map((_, idx) => (
+            <Link to="/u/us" key={idx}>
               <UserAvatar src={avatar} size="sm" />
             </Link>
           ))}

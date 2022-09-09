@@ -4,3 +4,6 @@ export { default as SolidFriends } from "./SolidFriends";
 export { default as SolidSearch } from "./SolidSearch";
 export { default as SolidMoreVert } from "./SolidMoreVert";
 export { default as SolidPlus } from "./SolidPlus";
+export { default as SolidBug } from "./SolidBug";
+export { default as SolidGoogle } from "./SolidGoogle";
+export { default as SolidTwitter } from "./SolidTwitter";

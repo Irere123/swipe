@@ -35,6 +35,11 @@ module.exports = {
       primary: {
         DEFAULT: "var(--color-primary)",
         dark: "var(--color-primary-dark)",
+        "dark-2": "var(--color-primary-dark-2)",
+      },
+      secondary: {
+        DEFAULT: "var(--color-secondary)",
+        "washed-out": "var(--color-secondary-washed-out)",
       },
       accent: {
         DEFAULT: "var(--color-accent)",

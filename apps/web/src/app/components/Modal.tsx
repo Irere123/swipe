@@ -4,6 +4,7 @@ import { SolidPlus } from "./icons";
 
 interface ModalProps {
   children: React.ReactNode;
+  moreInfo?: React.ReactNode;
 }
 
 const customStyles = {
@@ -23,11 +24,12 @@ const customStyles = {
     border: "none",
     maxHeight: "80vh",
     width: "90%",
-    maxWidth: 400,
+    maxWidth: 350,
   },
 };
 
 export const Modal: React.FC<ReactModal["props"] & ModalProps> = ({
+  moreInfo,
   children,
   ...props
 }) => {
@@ -64,6 +66,7 @@ export const Modal: React.FC<ReactModal["props"] & ModalProps> = ({
         >
           {children}
         </div>
+        {moreInfo ? moreInfo : null}
       </div>
     </ReactModal>
   );
