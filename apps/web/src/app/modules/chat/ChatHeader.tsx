@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { BoxedIcon } from "../../components/BoxedIcon";
 import { Button } from "../../components/Button";
+import { modalConfirm } from "../../components/ComfirmModal";
 import { SolidFriends } from "../../components/icons";
 import { UserAvatar } from "../../components/UserAvatar";
 
@@ -11,6 +12,7 @@ interface ChatHeaderProps {
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId, user }) => {
+  const { push } = useHistory();
   return (
     <div className="flex z-50 gap-3 sticky top-0 bg-primary p-3 border-b-2 border-b-primary-dark-2">
       <div>
@@ -35,7 +37,16 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId, user }) => {
             </BoxedIcon>
           </Link>
           <div>
-            <Button>Unmatch</Button>
+            <Button
+              onClick={() =>
+                modalConfirm("Are you sure you want to unmatch", () => {
+                  console.log("unmatched");
+                  push("/");
+                })
+              }
+            >
+              Unmatch
+            </Button>
           </div>
         </div>
       </div>
