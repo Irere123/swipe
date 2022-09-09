@@ -1,11 +1,13 @@
-import { Router } from "@solidjs/router";
-import { Component } from "solid-js";
+import { BrowserRouter } from "react-router-dom";
+import { MainLayout } from "./modules/layouts/MainLayout";
 import { Routes } from "./Routes";
 
-export const App: Component = () => {
+function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes />
-    </Router>
+    </BrowserRouter>
   );
-};
+}
+
+export default App;

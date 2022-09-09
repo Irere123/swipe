@@ -1,4 +1,4 @@
-import { Component, JSX } from "solid-js";
+import React from "react";
 import { Spinner } from "./Spinner";
 
 const sizeClassnames = {
@@ -13,7 +13,7 @@ const colorClassnames = {
   transparent: "text-button bg-transparent border-2 border-primary-dark",
 };
 
-export type ButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: keyof typeof sizeClassnames;
   color?: keyof typeof colorClassnames;
   className?: string;
@@ -22,7 +22,7 @@ export type ButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
   transition?: boolean;
 };
 
-export const Button: Component<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   children,
   size = "big",
   color = "primary",
@@ -36,7 +36,7 @@ export const Button: Component<ButtonProps> = ({
   return (
     <button
       disabled={disabled || loading}
-      class={`flex outline-none ${sizeClassnames[size]} ${
+      className={`flex outline-none ${sizeClassnames[size]} ${
         transition ? `transition duration-200 ease-in-out` : ``
       } ${
         colorClassnames[color]
@@ -44,12 +44,12 @@ export const Button: Component<ButtonProps> = ({
       data-testid="button"
       {...props}
     >
-      <span class={loading ? "opacity-0" : `flex items-center`}>
-        {icon ? <span class={`mr-2 items-center`}>{icon}</span> : null}
+      <span className={loading ? "opacity-0" : `flex items-center`}>
+        {icon ? <span className={`mr-2 items-center`}>{icon}</span> : null}
         {children}
       </span>
       {loading ? (
-        <span class={`absolute`}>
+        <span className={`absolute`}>
           <Spinner size={size === "small" ? "2" : "4"} />
         </span>
       ) : null}

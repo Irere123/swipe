@@ -1,4 +1,4 @@
-import { JSX, Component } from "solid-js";
+import React from "react";
 
 const colorMap = {
   "700": "bg-primary-700",
@@ -7,7 +7,7 @@ const colorMap = {
 };
 
 export interface BoxedIconProps
-  extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   circle?: boolean;
   transition?: boolean;
   hover?: boolean;
@@ -15,7 +15,7 @@ export interface BoxedIconProps
   class?: string;
 }
 
-export const BoxedIcon: Component<BoxedIconProps> = ({
+export const BoxedIcon: React.FC<BoxedIconProps> = ({
   color = "transparent",
   children,
   circle = false,

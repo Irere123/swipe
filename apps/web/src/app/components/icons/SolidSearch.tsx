@@ -1,6 +1,6 @@
-import { JSX } from "solid-js";
+import React from "react";
 
-function SvgSolidSearch(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
+function SvgSolidSearch(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={16}
@@ -11,7 +11,7 @@ function SvgSolidSearch(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
       {...props}
     >
       <g
-        clip-path="url(#sm-solid-search_svg__clip0)"
+        clipPath="url(#sm-solid-search_svg__clip0)"
         fill-rule="evenodd"
         clip-rule="evenodd"
       >

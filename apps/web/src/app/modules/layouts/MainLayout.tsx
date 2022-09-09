@@ -1,14 +1,14 @@
-import { Component, JSX } from "solid-js";
+import React from "react";
 import { MainInnerGrid } from "../../components/MainGrid";
 import { LeftPanel, MiddlePanel } from "./GridPanels";
 
 interface MainLayoutProps {
-  children: JSX.Element;
+  children?: React.ReactNode;
 }
 
-export const MainLayout: Component<MainLayoutProps> = ({ children }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div class="flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-700 ">
+    <div className="flex flex-col items-center w-full scrollbar-thin scrollbar-thumb-primary-700 ">
       <MainInnerGrid>
         <LeftPanel />
         <MiddlePanel>{children}</MiddlePanel>

@@ -1,8 +1,6 @@
-import { JSX } from "solid-js";
+import React from "react";
 
-export default function SvgSolidMoreVert(
-  props: JSX.SvgSVGAttributes<SVGSVGElement>
-) {
+export default function SvgSolidMoreVert(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import React, { useState } from "react";
 
 export const avatarSizeMap = {
   default: "55px",
@@ -62,18 +62,18 @@ export interface AvatarProps {
   username?: string;
 }
 
-export const UserAvatar: Component<AvatarProps> = ({
+export const UserAvatar: React.FC<AvatarProps> = ({
   src,
   size = "default",
   className = "",
   isOnline = false,
   username,
 }) => {
-  const [isError, setError] = createSignal(false);
+  const [isError, setError] = useState(false);
   const sizeStyle = onlineIndicatorStyleMap[size];
   return (
     <div
-      class={`relative inline-block ${className}`}
+      className={`relative inline-block ${className}`}
       style={{
         width: avatarSizeMap[size],
         height: avatarSizeMap[size],
@@ -82,10 +82,10 @@ export const UserAvatar: Component<AvatarProps> = ({
     >
       <img
         alt={username ? `${username}-s-avatar` : "your-avatar"}
-        class={`rounded-full w-full h-full object-cover`}
+        className={`rounded-full w-full h-full object-cover`}
         onError={() => setError(true)}
         src={
-          isError()
+          isError
             ? `https://ui-avatars.com/api/${
                 username ? `&name=${username}` : "&name"
               }&rounded=true&background=B23439&bold=true&color=FFFFFF`
@@ -94,7 +94,9 @@ export const UserAvatar: Component<AvatarProps> = ({
       />
       {isOnline && (
         <span
-          class={"rounded-full absolute box-content bg-accent border-primary"}
+          className={
+            "rounded-full absolute box-content bg-accent border-primary"
+          }
           style={sizeStyle}
           data-testid="online-indictor"
         ></span>

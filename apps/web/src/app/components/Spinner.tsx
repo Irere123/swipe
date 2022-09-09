@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import React from "react";
 
 // I'm not doing string interpolation so tailwind can purge the css
 const sizes = {
@@ -6,12 +6,12 @@ const sizes = {
   "4": "h-4 w-4",
 };
 
-export const Spinner: Component<{ size?: keyof typeof sizes }> = ({
+export const Spinner: React.FC<{ size?: keyof typeof sizes }> = ({
   size = "4",
 }) => {
   return (
     <svg
-      class={`animate-spin text-button ${sizes[size]}`}
+      className={`animate-spin text-button ${sizes[size]}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

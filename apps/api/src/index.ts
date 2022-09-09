@@ -17,7 +17,7 @@ const main = async () => {
     conn.onOperator("ping", (e) => {
       console.log(e.data);
     });
-    conn.sendOp("hello:world", { hello: "How are you doing" });
+    conn.sendOp("auth", { hello: "How are you doing" });
   });
 
   httpServer.listen(4000, () => {

@@ -1,16 +1,16 @@
-import { Component, JSX } from "solid-js";
+import React from "react";
 
 interface Props {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
-export const GridPanel: Component<Props> = ({ children }) => {
-  return <div class={`flex flex-col flex-1 w-full`}>{children}</div>;
+export const GridPanel: React.FC<Props> = ({ children }) => {
+  return <div className={`flex flex-col flex-1 w-full`}>{children}</div>;
 };
 
-export const FixedGridPanel: Component<Props> = ({ children }) => {
+export const FixedGridPanel: React.FC<Props> = ({ children }) => {
   return (
-    <div class={`flex pt-5 flex-col flex-1 sticky top-0 h-screen`}>
+    <div className={`flex pt-5 flex-col flex-1 sticky top-0 h-screen`}>
       {children}
     </div>
   );

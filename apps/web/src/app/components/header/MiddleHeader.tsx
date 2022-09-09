@@ -1,5 +1,5 @@
-import { Component } from "solid-js";
+import React from "react";
 
-export const MiddleHeader: Component = () => {
-  return <div class="flex flex-1" />;
+export const MiddleHeader: React.FC = () => {
+  return <div className="flex flex-1" />;
 };

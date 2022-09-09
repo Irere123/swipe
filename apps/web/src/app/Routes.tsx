@@ -1,13 +1,10 @@
-import { Route, Routes as SolidRoutes } from "@solidjs/router";
-import { Component } from "solid-js";
+import { Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import LeaderPage from "./pages/LeaderboardPage";
 
-export const Routes: Component = () => {
+export const Routes: React.FC = () => {
   return (
-    <SolidRoutes>
-      <Route path={`/`} element={<HomePage />} />
-      <Route path={`/leaderboard`} element={<LeaderPage />} />
-    </SolidRoutes>
+    <Switch>
+      <Route exact path={`/`} component={HomePage} />
+    </Switch>
   );
 };

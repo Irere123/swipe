@@ -1,25 +1,36 @@
-import { Component, JSX } from "solid-js";
+import React from "react";
+import { useScreenType } from "../hooks/useScreenType";
 
 interface DashboardGridProps {
   className?: string;
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
-export const MainInnerGrid: Component<DashboardGridProps> = ({
+export const MainInnerGrid: React.FC<DashboardGridProps> = ({
   children,
   className = "",
 }) => {
+  const screenType = useScreenType();
   let gridTemplateColumns = "60px 600px";
   let myClassName = ``;
+
+  if (screenType === "2-cols") {
+    gridTemplateColumns = "60px 640px";
+  } else if (screenType === "1-cols") {
+    gridTemplateColumns = "60px 640px";
+  } else if (screenType === "fullscreen") {
+    myClassName = "w-full px-3";
+    gridTemplateColumns = "1fr";
+  }
 
   return (
     <div
       id="main"
-      class={`relative ${myClassName} ${className}`}
+      className={`${myClassName} ${className}`}
       style={{
-        display: "grid",
-        "grid-template-columns": gridTemplateColumns,
-        "column-gap": "60px",
+        display: screenType === "fullscreen" ? "flex" : "grid",
+        gridTemplateColumns,
+        columnGap: 60,
       }}
     >
       {children}
