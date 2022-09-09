@@ -9,10 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@craco/craco": "^6.4.5",
     "date-fns": "^2.29.2",
     "downshift": "^6.1.9",
     "formik": "^2.2.9",
+    "graphql": "^16.6.0",
+    "graphql-ws": "^5.10.1",
     "hark": "^1.2.3",
     "isomorphic-fetch": "^3.0.0",
     "jotai": "^1.8.3",

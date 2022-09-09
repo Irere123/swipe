@@ -12,10 +12,20 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "commit": "cz"
+    "commit": "cz",
+    "commit:signed": "cz -S"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog",
+      "defaultScope": "global"
+    }
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint-config-custom": "*",
     "husky": "^8.0.0",
     "prettier": "latest",

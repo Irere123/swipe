@@ -2,8 +2,9 @@ require("dotenv-safe").config();
 import express from "express";
 import cors from "cors";
 import http from "http";
-import { server } from "websocket";
 import { PrismaClient } from "@prisma/client";
+import { ApolloServer } from "apollo-server-express";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { __prod__ } from "./lib/constants";
 import { DevOnly } from "./routes";
 
@@ -24,15 +25,35 @@ const main = async () => {
   }
 
   const httpServer = http.createServer(app);
-  const socket = new server({ httpServer });
-
-  socket.on("request", (request) => {
-    request.accept(null, request.origin);
+  const server = new ApolloServer({
+    typeDefs: `
+      type Query {
+        hello: String!
+      }
+    `,
+    resolvers: {
+      Query: {
+        hello() {
+          return "Hello world";
+        },
+      },
+    },
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-  httpServer.listen(4000, () => {
-    console.log("🚀🚀🚀 API Server running on port 4000");
+  await server.start();
+  server.applyMiddleware({
+    app,
+    path: "/graphql",
   });
+
+  // Modified server startup
+  await new Promise<void>((resolve) =>
+    httpServer.listen({ port: 4000 }, resolve)
+  );
+  console.log(
+    `🚀🚀🚀 API Server running at http://localhost:4000${server.graphqlPath}`
+  );
 };
 
 main()
