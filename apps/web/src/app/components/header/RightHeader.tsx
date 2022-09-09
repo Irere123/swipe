@@ -9,6 +9,7 @@ import {
   SolidTwitter,
 } from "../icons";
 import { Modal } from "../Modal";
+import { modalPrompt } from "../PromptModal";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -68,7 +69,12 @@ export const RightHeader: React.FC = () => {
               <SolidPlus />
               Continue with Facebook
             </LoginButton>
-            <LoginButton dev>
+            <LoginButton
+              dev
+              onClick={() => {
+                const name = window.prompt("Username");
+              }}
+            >
               <SolidBug />
               Create a test user
             </LoginButton>

@@ -1,11 +1,12 @@
 import { BrowserRouter } from "react-router-dom";
-import { MainLayout } from "./modules/layouts/MainLayout";
+import { PromptModal } from "./components/PromptModal";
 import { Routes } from "./Routes";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes />
+      <PromptModal />
     </BrowserRouter>
   );
 }
