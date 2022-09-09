@@ -15,6 +15,8 @@ import {
 import { Modal } from "../Modal";
 import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
+import { DropdownController } from "../DropdownController";
+import { ProfileDropdown } from "../ProfileDropdown";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -54,14 +56,18 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 };
 
 export const RightHeader: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
   const { push } = useHistory();
 
   return (
     <div className="flex gap-2">
-      {open && (
-        <Modal isOpen={open} onRequestClose={() => setOpen(!open)}>
+      {openLogin && (
+        <Modal
+          isOpen={openLogin}
+          onRequestClose={() => setOpenLogin(!openLogin)}
+        >
           <h4 className="font-bold text-center mb-4">Login in to Swipe</h4>
           <div className="flex gap-3 flex-col w-full">
             <LoginButton>
@@ -91,7 +97,7 @@ export const RightHeader: React.FC = () => {
                   accessToken: d.accessToken,
                   refreshToken: d.refreshToken,
                 });
-                setOpen(!open);
+                setOpenLogin(!openLogin);
                 push("/");
               }}
             >
@@ -103,7 +109,7 @@ export const RightHeader: React.FC = () => {
       )}
       {!hasTokens ? (
         <>
-          <Button onClick={() => setOpen(!open)}>Login</Button>
+          <Button onClick={() => setOpenLogin(!openLogin)}>Login</Button>
           <BoxedIcon>
             <SolidMoreVert width={24} height={27} />
           </BoxedIcon>
@@ -116,6 +122,20 @@ export const RightHeader: React.FC = () => {
             </BoxedIcon>
           </Link>
           <div>
+            {/* <DropdownController
+              zIndex={1000}
+              className="top-9 right-3 md:right-0 fixed"
+              innerClassName="fixed  transform -translate-x-full"
+              overlay={(close) => (
+                <ProfileDropdown
+                  onActionButtonClicked={() => {}}
+                  onCloseDropdown={close}
+                  user={{ username: "di" }}
+                />
+              )}
+            >
+              <UserAvatar src={avatar} size="sm" />
+            </DropdownController> */}
             <UserAvatar src={avatar} size="sm" />
           </div>
         </div>
