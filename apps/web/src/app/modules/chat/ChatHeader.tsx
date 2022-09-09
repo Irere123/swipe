@@ -4,6 +4,7 @@ import { BoxedIcon } from "../../components/BoxedIcon";
 import { Button } from "../../components/Button";
 import { modalConfirm } from "../../components/ComfirmModal";
 import { SolidFriends } from "../../components/icons";
+import { Text } from "../../components/Text";
 import { UserAvatar } from "../../components/UserAvatar";
 
 interface ChatHeaderProps {
@@ -24,10 +25,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId, user }) => {
         />
       </div>
       <div>
-        <p className="font-bold select-none">{user.username}</p>
-        <p className="text-sm select-none">
+        <Text variant="username">{user.username}</Text>
+        <Text variant="info">
           {user.isOnline ? <>Online</> : <>last online</>}
-        </p>
+        </Text>
       </div>
       <div className="flex flex-1 justify-end">
         <div className="flex gap-3">

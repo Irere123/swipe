@@ -3,6 +3,7 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import { Button } from "./Button";
 import { Modal } from "./Modal";
+import { Text } from "./Text";
 
 interface Props {}
 
@@ -30,7 +31,7 @@ export const ConfirmModal: React.FC<Props> = () => {
   return (
     <Modal isOpen={!!onConfirm} onRequestClose={() => close()}>
       <div className="flex flex-col">
-        <div className={`flex text-primary-100`}>{message}</div>
+        <Text>{message}</Text>
         <div className={`flex  mt-6 items-center`}>
           <Button
             onClick={() => {
