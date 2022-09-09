@@ -2,6 +2,7 @@ import React from "react";
 import avatar from "../../assets/avatar.jpg";
 import { BoxedIcon } from "../components/BoxedIcon";
 import { SolidCheck, SolidCross, SolidHeart } from "../components/icons";
+import { Text } from "../components/Text";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
 
@@ -21,8 +22,8 @@ const HomePage: React.FC = () => {
             </div>
             <div>
               <div>
-                <p>Bradly{idx + 1}</p>
-                <p>Hy this my cool bio are you interested in me</p>
+                <Text variant="username">Bradly{idx + 1}</Text>
+                <Text>Hy this my cool bio are you interested in me</Text>
               </div>
               <div className="flex gap-2">
                 <div className="bg-accent-disabled w-300 h-400 mt-3 rounded-lg"></div>
