@@ -1,4 +1,7 @@
 import React, { useCallback, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useTokenStore } from "../../../global-stores/useTokenStore";
+import { apiBaseUrl } from "../../constants";
 import { BoxedIcon } from "../BoxedIcon";
 import { Button } from "../Button";
 import {
@@ -50,6 +53,8 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 
 export const RightHeader: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
+  const { push } = useHistory();
 
   return (
     <div className="flex gap-2">
@@ -71,8 +76,20 @@ export const RightHeader: React.FC = () => {
             </LoginButton>
             <LoginButton
               dev
-              onClick={() => {
+              onClick={async () => {
                 const name = window.prompt("Username");
+                if (!name) {
+                  return;
+                }
+                const r = await fetch(
+                  `${apiBaseUrl}/dev/test-info?username=` + name
+                );
+                const d = await r.json();
+                useTokenStore.getState().setTokens({
+                  accessToken: d.accessToken,
+                  refreshToken: d.refreshToken,
+                });
+                push("/");
               }}
             >
               <SolidBug />
@@ -81,10 +98,18 @@ export const RightHeader: React.FC = () => {
           </div>
         </Modal>
       )}
-      <Button onClick={() => setOpen(!open)}>Login</Button>
-      <BoxedIcon>
-        <SolidMoreVert width={24} height={27} />
-      </BoxedIcon>
+      {!hasTokens ? (
+        <>
+          <Button onClick={() => setOpen(!open)}>Login</Button>
+          <BoxedIcon>
+            <SolidMoreVert width={24} height={27} />
+          </BoxedIcon>
+        </>
+      ) : (
+        <div>
+          <p>profile</p>
+        </div>
+      )}
     </div>
   );
 };

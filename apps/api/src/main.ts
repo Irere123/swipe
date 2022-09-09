@@ -1,3 +1,4 @@
+require("dotenv-safe").config();
 import express from "express";
 import cors from "cors";
 import http from "http";
@@ -37,6 +38,6 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.log(e);
+    console.error(e);
     await prisma.$disconnect();
   });

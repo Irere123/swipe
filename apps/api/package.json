@@ -5,7 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "conc \"nodemon dist/main.js\" \"yarn watch\"",
+    "dev": "conc  \"yarn watch\" \"nodemon dist/main.js\"",
     "start": "node dist/index.js",
     "watch": "tsc -w",
     "build": "tsc"

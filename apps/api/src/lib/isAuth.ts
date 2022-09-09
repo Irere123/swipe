@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 import {
@@ -5,7 +6,8 @@ import {
   RefreshTokenData,
   AccessTokenData,
 } from "./createTokens";
-import { prisma } from "../main";
+
+const prisma = new PrismaClient();
 
 export const isAuth: (st?: boolean) => RequestHandler<{}, any, any, {}> =
   (shouldThrow = true) =>
