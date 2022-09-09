@@ -11,10 +11,10 @@ const users = [
 ];
 
 const MessagesPage: React.FC = () => {
-  const { push } = useHistory();
+  const { replace } = useHistory();
   return (
     <MainLayout>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-3">
         {Array.from(users).map((u, idx) => (
           <MessageUserCard
             key={idx}
@@ -22,7 +22,7 @@ const MessagesPage: React.FC = () => {
             isOnline={u.isOnline}
             username={u.username}
             onClick={() => {
-              push("/");
+              replace(`/messages/${3208923237}`);
             }}
           />
         ))}
