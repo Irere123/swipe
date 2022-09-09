@@ -8,3 +8,8 @@ export type BaseUser = {
   birthday: string;
   createdAt: string;
 };
+
+export type Params = {
+  matchId: string;
+  username: string;
+};

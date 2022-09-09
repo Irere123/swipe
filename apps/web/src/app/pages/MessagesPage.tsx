@@ -15,6 +15,7 @@ const MessagesPage: React.FC = () => {
   return (
     <MainLayout>
       <div className="flex flex-col gap-3">
+        <h4 className="font-bold">Messages</h4>
         {Array.from(users).map((u, idx) => (
           <MessageUserCard
             key={idx}
