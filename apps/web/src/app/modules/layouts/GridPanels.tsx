@@ -4,7 +4,12 @@ import { BoxedIcon } from "../../components/BoxedIcon";
 import { FixedGridPanel, GridPanel } from "../../components/GridPanels";
 import { MiddleHeader } from "../../components/header/MiddleHeader";
 import { RightHeader } from "../../components/header/RightHeader";
-import { Logo, SolidFriends, SolidHome } from "../../components/icons";
+import {
+  Logo,
+  SolidFire,
+  SolidFriends,
+  SolidHome,
+} from "../../components/icons";
 import { UserAvatar } from "../../components/UserAvatar";
 import avatar from "../../../assets/avatar.jpg";
 
@@ -30,7 +35,7 @@ export const LeftPanel: React.FC = () => {
         </NavLink>
         <Link to="/leaderboard">
           <BoxedIcon>
-            <SolidFriends />
+            <SolidFire />
           </BoxedIcon>
         </Link>
         <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
@@ -48,7 +53,7 @@ export const LeftPanel: React.FC = () => {
 export const MiddlePanel: React.FC<Props> = ({ children }) => {
   return (
     <GridPanel>
-      <div className="flex pt-5 flex-col sticky top-0">
+      <div className="flex pt-5 px-3 flex-col sticky top-0">
         <HeaderWrapper>
           <MiddleHeader />
           <RightHeader />

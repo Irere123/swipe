@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useTokenStore } from "../../../global-stores/useTokenStore";
 import { apiBaseUrl } from "../../constants";
 import { BoxedIcon } from "../BoxedIcon";
@@ -7,9 +7,9 @@ import { Button } from "../Button";
 import {
   SolidBug,
   SolidFacebook,
+  SolidFriends,
   SolidGoogle,
   SolidMoreVert,
-  SolidPlus,
   SolidTwitter,
 } from "../icons";
 import { Modal } from "../Modal";
@@ -110,9 +110,11 @@ export const RightHeader: React.FC = () => {
         </>
       ) : (
         <div className="flex gap-3">
-          <BoxedIcon>
-            <SolidPlus />
-          </BoxedIcon>
+          <Link to={`/messages`}>
+            <BoxedIcon>
+              <SolidFriends />
+            </BoxedIcon>
+          </Link>
           <div>
             <UserAvatar src={avatar} size="sm" />
           </div>

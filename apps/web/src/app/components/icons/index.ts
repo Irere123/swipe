@@ -11,3 +11,4 @@ export { default as SolidHeart } from "./SolidHeart";
 export { default as SolidCross } from "./SolidCross";
 export { default as SolidCheck } from "./SolidCheck";
 export { default as SolidFacebook } from "./SolidFacebook";
+export { default as SolidFire } from "./SolidFire";
