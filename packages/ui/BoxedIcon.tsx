@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 const colorMap = {
   "700": "bg-primary-700",
@@ -10,6 +10,7 @@ export interface BoxedIconProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   circle?: boolean;
   transition?: boolean;
+  children?: any;
   hover?: boolean;
   color?: keyof typeof colorMap;
   class?: string;
