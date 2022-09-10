@@ -1,8 +1,6 @@
 import React, { PropsWithChildren } from "react";
-import { format } from "date-fns";
-import { Tag } from "../Tag";
 import { UserAvatar } from "../UserAvatar";
-import { useScreenType } from "../../hooks/useScreenType";
+import { useScreenType } from "@swipe/ui";
 
 export interface MessageUserCardProps extends PropsWithChildren {
   username: string;

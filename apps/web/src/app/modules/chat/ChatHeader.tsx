@@ -1,10 +1,8 @@
 import React from "react";
+import { SolidFriends } from "@swipe/ui/icons";
+import { BoxedIcon, Button, Text } from "@swipe/ui";
 import { Link, useHistory } from "react-router-dom";
-import { BoxedIcon } from "../../components/BoxedIcon";
-import { Button } from "../../components/Button";
 import { modalConfirm } from "../../components/ComfirmModal";
-import { SolidFriends } from "../../components/icons";
-import { Text } from "../../components/Text";
 import { UserAvatar } from "../../components/UserAvatar";
 
 interface ChatHeaderProps {

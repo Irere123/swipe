@@ -1,9 +1,8 @@
 import * as React from "react";
 import create from "zustand";
 import { combine } from "zustand/middleware";
-import { Button } from "./Button";
+import { Text, Button } from "@swipe/ui";
 import { Modal } from "./Modal";
-import { Text } from "./Text";
 
 interface Props {}
 

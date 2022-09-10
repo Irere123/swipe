@@ -1,6 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
-import { SolidPlus } from "./icons";
+import { SolidPlus } from "@swipe/ui";
 
 interface ModalProps {
   children: React.ReactNode;

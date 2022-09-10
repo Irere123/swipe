@@ -1,15 +1,11 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { BoxedIcon } from "../../components/BoxedIcon";
+import { BoxedIcon } from "@swipe/ui";
+import { SolidFire, SolidHome } from "@swipe/ui/icons";
 import { FixedGridPanel, GridPanel } from "../../components/GridPanels";
 import { MiddleHeader } from "../../components/header/MiddleHeader";
 import { RightHeader } from "../../components/header/RightHeader";
-import {
-  Logo,
-  SolidFire,
-  SolidFriends,
-  SolidHome,
-} from "../../components/icons";
+import Logo from "../../components/Logo";
 import { UserAvatar } from "../../components/UserAvatar";
 import avatar from "../../../assets/avatar.jpg";
 

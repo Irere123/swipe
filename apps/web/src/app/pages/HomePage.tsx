@@ -1,8 +1,7 @@
 import React from "react";
+import { SolidCheck, SolidCross, SolidHeart } from "@swipe/ui/icons";
+import { Text, BoxedIcon } from "@swipe/ui";
 import avatar from "../../assets/avatar.jpg";
-import { BoxedIcon } from "../components/BoxedIcon";
-import { SolidCheck, SolidCross, SolidHeart } from "../components/icons";
-import { Text } from "../components/Text";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
 

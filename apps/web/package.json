@@ -48,6 +48,7 @@
     "@types/react-responsive": "^8.0.5",
     "@types/react-router-dom": "5",
     "@vitejs/plugin-react": "^2.1.0",
+    "@swipe/ui": "*",
     "autoprefixer": "^10.4.8",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.16",

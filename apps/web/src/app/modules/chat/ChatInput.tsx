@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SolidBug } from "../../components/icons";
+import { SolidBug } from "@swipe/ui";
 import { Input } from "../../components/Input";
 
 interface ChatInputProps {}

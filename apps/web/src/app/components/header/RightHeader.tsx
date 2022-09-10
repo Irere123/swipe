@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { BoxedIcon, Button } from "@swipe/ui";
 import { useTokenStore } from "../../../global-stores/useTokenStore";
 import { apiBaseUrl } from "../../constants";
-import { BoxedIcon } from "../BoxedIcon";
-import { Button } from "../Button";
 import {
   SolidBug,
   SolidFacebook,
@@ -11,12 +10,10 @@ import {
   SolidGoogle,
   SolidMoreVert,
   SolidTwitter,
-} from "../icons";
+} from "@swipe/ui";
 import { Modal } from "../Modal";
 import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
-import { DropdownController } from "../DropdownController";
-import { ProfileDropdown } from "../ProfileDropdown";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
