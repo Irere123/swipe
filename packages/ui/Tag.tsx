@@ -2,7 +2,7 @@ import React from "react";
 
 interface TagProps {
   glow?: boolean;
-  children?: any;
+  children?: React.ReactNode;
 }
 
 // @todo the tag doesn't really glow like in figma right now

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Spinner } from "./Spinner";
 
 const sizeClassnames = {
@@ -19,7 +19,6 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: keyof typeof sizeClassnames;
   color?: keyof typeof colorClassnames;
   className?: string;
-  children?: any;
   loading?: boolean;
   icon?: JSX.Element;
   transition?: boolean;
