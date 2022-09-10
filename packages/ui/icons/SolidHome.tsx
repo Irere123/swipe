@@ -1,4 +1,4 @@
-import { JSX } from "solid-js";
+import React from "react";
 
 function SvgSolidHome(props: React.SVGProps<SVGSVGElement>) {
   return (
