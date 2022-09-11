@@ -5,6 +5,7 @@ import HTTP from "http";
 import { PrismaClient } from "@prisma/client";
 import { __prod__ } from "./lib/constants";
 import { DevOnly } from "./routes";
+import { isAuth } from "./lib/isAuth";
 
 export const prisma = new PrismaClient();
 
@@ -23,6 +24,26 @@ const main = async () => {
     })
   );
   app.use(express.json());
+
+  app.get("/me", isAuth(false), async (req, res) => {
+    const leaderboard = await prisma.$queryRaw`
+      select u.id, "avatarUrl", "username", "bio", "displayName" 
+      from users u order by u."numLikes" DESC limit 5
+    `;
+
+    if (!req.userId) {
+      res.json({
+        user: null,
+        leaderboard,
+      });
+      return;
+    }
+
+    res.json({
+      user: await prisma.user.findFirst({ where: { id: req.userId } }),
+      leaderboard,
+    });
+  });
 
   app.use((err: any, _: any, res: any, next: any) => {
     if (res.headersSent) {

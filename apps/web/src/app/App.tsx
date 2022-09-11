@@ -7,8 +7,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes />
-      <PromptModal />
-      <ConfirmModal />
     </BrowserRouter>
   );
 }

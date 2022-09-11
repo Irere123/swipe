@@ -6,6 +6,11 @@ export type BaseUser = {
   avatarUrl: string;
   gender: string;
   birthday: string;
+  location: string;
+  numlikes: number;
+  goal: string;
+  lastOnline: string;
+  schoolName: string;
   createdAt: string;
 };
 

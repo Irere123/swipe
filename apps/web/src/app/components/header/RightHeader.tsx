@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useTokenStore } from "../../../global-stores/useTokenStore";
 import { apiBaseUrl } from "../../constants";
@@ -15,6 +15,7 @@ import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
 import { Button } from "../Button";
 import { BoxedIcon } from "../BoxedIcon";
+import { MeContext } from "../../utils/UserProvider";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -58,6 +59,7 @@ export const RightHeader: React.FC = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
   const { push } = useHistory();
+  const { me } = useContext(MeContext);
 
   return (
     <div className="flex gap-2">
@@ -105,7 +107,7 @@ export const RightHeader: React.FC = () => {
           </div>
         </Modal>
       )}
-      {!hasTokens ? (
+      {!hasTokens && !me ? (
         <>
           <Button onClick={() => setOpenLogin(!openLogin)}>Login</Button>
           <BoxedIcon>
@@ -134,7 +136,7 @@ export const RightHeader: React.FC = () => {
             >
               <UserAvatar src={avatar} size="sm" />
             </DropdownController> */}
-            <UserAvatar src={""} size="sm" />
+            <UserAvatar src={me?.avatarUrl!} size="sm" />
           </div>
         </div>
       )}
