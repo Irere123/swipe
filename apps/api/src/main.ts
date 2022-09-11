@@ -4,7 +4,7 @@ import cors from "cors";
 import HTTP from "http";
 import { PrismaClient } from "@prisma/client";
 import { __prod__ } from "./lib/constants";
-import { DevOnly } from "./routes";
+import { DevOnly, UserOnly } from "./routes";
 import { isAuth } from "./lib/isAuth";
 
 export const prisma = new PrismaClient();
@@ -24,6 +24,10 @@ const main = async () => {
     })
   );
   app.use(express.json());
+  app.use("/u", isAuth(false), UserOnly);
+  if (!__prod__) {
+    app.use("/dev", DevOnly);
+  }
 
   app.get("/me", isAuth(false), async (req, res) => {
     const leaderboard = await prisma.$queryRaw`
@@ -74,10 +78,6 @@ const main = async () => {
 
     res.json({ profiles });
   });
-
-  if (!__prod__) {
-    app.use("/dev", DevOnly);
-  }
 
   const http = HTTP.createServer(app);
 
