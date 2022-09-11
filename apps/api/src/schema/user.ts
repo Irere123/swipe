@@ -8,6 +8,7 @@ export const User = objectType({
       t.string("username"),
       t.string("avatarUrl"),
       t.string("displayName"),
+      t.string("bio"),
       t.string("gender"),
       t.string("location"),
       t.string("birthday"),
@@ -22,6 +23,19 @@ export const Users = queryType({
       resolve() {
         const users = prisma.user.findMany();
         return users;
+      },
+    });
+    t.list.field("leaderboard", {
+      type: "User",
+      async resolve() {
+        const data = await prisma.$queryRaw`
+          select u.id, "numLikes", "displayName", "username", "birthday", bio, "avatarUrl"
+          from users u
+          order by u."numLikes" DESC
+          limit 10
+        `;
+
+        return data;
       },
     });
   },

@@ -13,7 +13,7 @@ import { __prod__ } from "./lib/constants";
 import * as schemaTypes from "./schema";
 import { DevOnly } from "./routes";
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({ log: ["error", "query"] });
 
 const main = async () => {
   const app = express();
