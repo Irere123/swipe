@@ -1,9 +1,9 @@
 import React from "react";
-import { useUsersQuery } from "../../generated/graphql";
+import { useLeaderboardQuery } from "../../generated/graphql";
 import { MainLayout } from "../modules/layouts/MainLayout";
 
 const LeaderBoard: React.FC = () => {
-  const { data, loading } = useUsersQuery();
+  const { data, loading } = useLeaderboardQuery();
 
   if (loading) {
     return <div>loading...</div>;
