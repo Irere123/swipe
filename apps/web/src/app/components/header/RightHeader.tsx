@@ -15,7 +15,6 @@ import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
 import { Button } from "../Button";
 import { BoxedIcon } from "../BoxedIcon";
-import { useMeQuery } from "../../../generated/graphql";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -59,7 +58,6 @@ export const RightHeader: React.FC = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
   const { push } = useHistory();
-  const { data, loading } = useMeQuery();
 
   return (
     <div className="flex gap-2">
@@ -107,7 +105,7 @@ export const RightHeader: React.FC = () => {
           </div>
         </Modal>
       )}
-      {!hasTokens || !data?.me ? (
+      {!hasTokens ? (
         <>
           <Button onClick={() => setOpenLogin(!openLogin)}>Login</Button>
           <BoxedIcon>
@@ -136,7 +134,7 @@ export const RightHeader: React.FC = () => {
             >
               <UserAvatar src={avatar} size="sm" />
             </DropdownController> */}
-            <UserAvatar src={data.me.avatarUrl!} size="sm" />
+            <UserAvatar src={""} size="sm" />
           </div>
         </div>
       )}

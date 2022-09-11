@@ -1,32 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SolidCheck, SolidCross, SolidHeart } from "@swipe/ui/icons";
-import avatar from "../../assets/avatar.jpg";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
 import { Text } from "../components/Text";
 import { BoxedIcon } from "../components/BoxedIcon";
+import { apiBaseUrl } from "../constants";
+import { BaseUser } from "../../types";
 
 const HomePage: React.FC = () => {
+  const [profiles, setProfiles] = useState<BaseUser[]>([]);
+  useEffect(() => {
+    fetch(`${apiBaseUrl}/feed`, {})
+      .then((x) => x.json())
+      .then((d) => {
+        setProfiles(d.profiles);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <MainLayout>
       <div className="flex flex-1 flex-col gap-3 w-full h-full mb-5">
-        {Array.from([1, 2, 3, 45, 6]).map((_, idx) => (
+        {profiles.map((user) => (
           <div
             className="flex gap-2 border-b-2 border-b-primary-dark pb-4"
-            key={idx}
+            key={user.id}
           >
             <div className="flex gap-1">
               <div>
-                <UserAvatar src={avatar} username="" size="md" />
+                <UserAvatar
+                  src={user.avatarUrl}
+                  username={user.username}
+                  size="md"
+                />
               </div>
             </div>
             <div>
               <div>
-                <Text variant="username">Bradly{idx + 1}</Text>
-                <Text>Hy this my cool bio are you interested in me</Text>
+                <Text>{user.displayName}</Text>
+                <p className="w-300">{user.bio}</p>
               </div>
               <div className="flex gap-2">
-                <div className="bg-accent-disabled w-300 h-400 mt-3 rounded-lg"></div>
+                <img
+                  className="bg-accent-disabled w-300 h-400 mt-3 rounded-lg"
+                  src={user.avatarUrl}
+                />
                 <div className="flex flex-1 flex-col-reverse gap-3">
                   <BoxedIcon color="primary" circle>
                     <SolidCross />

@@ -7,7 +7,6 @@ import { MiddleHeader } from "../../components/header/MiddleHeader";
 import { RightHeader } from "../../components/header/RightHeader";
 import Logo from "../../components/Logo";
 import { UserAvatar } from "../../components/UserAvatar";
-import { useTopPeopleQuery } from "../../../generated/graphql";
 
 interface Props {
   children: React.ReactNode;
@@ -18,7 +17,6 @@ const HeaderWrapper: React.FC<Props> = ({ children }) => (
 );
 
 export const LeftPanel: React.FC = () => {
-  const { data, loading } = useTopPeopleQuery();
   return (
     <FixedGridPanel>
       <div className="flex justify-center items-center mb-7">
@@ -35,15 +33,7 @@ export const LeftPanel: React.FC = () => {
             <SolidFire />
           </BoxedIcon>
         </Link>
-        <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
-          {data && !loading
-            ? data.topPeople?.map((user) => (
-                <Link to={`/u/${user?.id}`} key={user?.id}>
-                  <UserAvatar src={user?.avatarUrl!} size="sm" />
-                </Link>
-              ))
-            : null}
-        </div>
+        <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2"></div>
       </div>
     </FixedGridPanel>
   );
