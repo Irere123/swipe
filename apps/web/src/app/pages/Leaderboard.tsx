@@ -1,5 +1,6 @@
 import React from "react";
 import { useLeaderboardQuery } from "../../generated/graphql";
+import { BoardUserCard } from "../components/BoardUserCard";
 import { MainLayout } from "../modules/layouts/MainLayout";
 
 const LeaderBoard: React.FC = () => {
@@ -11,8 +12,10 @@ const LeaderBoard: React.FC = () => {
 
   return (
     <MainLayout>
-      <div>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+      <div className="flex flex-col gap-3">
+        {data?.leaderboard?.map((user) => (
+          <BoardUserCard user={user} key={user?.id} />
+        ))}
       </div>
     </MainLayout>
   );

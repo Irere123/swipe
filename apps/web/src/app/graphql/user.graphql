@@ -1,0 +1,42 @@
+query Users {
+  users {
+    id
+    username
+    displayName
+    avatarUrl
+    gender
+    location
+    online
+  }
+}
+
+query Me {
+  me {
+    id
+    username
+    avatarUrl
+    displayName
+    online
+  }
+}
+
+query Leaderboard {
+  leaderboard {
+    id
+    username
+    avatarUrl
+    displayName
+    bio
+    gender
+    birthday
+    numLikes
+  }
+}
+
+query TopPeople {
+  topPeople {
+    id
+    username
+    avatarUrl
+  }
+}
