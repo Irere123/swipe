@@ -13,7 +13,7 @@ import { __prod__ } from "./lib/constants";
 import * as schemaTypes from "./schema";
 import { DevOnly } from "./routes";
 
-export const prisma = new PrismaClient({ log: ["error", "query"] });
+export const prisma = new PrismaClient();
 
 const main = async () => {
   const app = express();
@@ -34,7 +34,7 @@ const main = async () => {
   const http = HTTP.createServer(app);
   const server = new ApolloServer({
     schema,
-    context: () => {},
+    context: ({ req, res }) => ({ req, res }),
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer: http }),
       ApolloServerPluginLandingPageGraphQLPlayground(),
