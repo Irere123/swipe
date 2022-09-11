@@ -1,0 +1,11 @@
+query Users {
+  users {
+    id
+    username
+    displayName
+    avatarUrl
+    gender
+    location
+    online
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BoxedIcon, Button } from "@swipe/ui";
 import { useTokenStore } from "../../../global-stores/useTokenStore";
 import { apiBaseUrl } from "../../constants";
 import {
@@ -14,6 +13,8 @@ import {
 import { Modal } from "../Modal";
 import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
+import { Button } from "../Button";
+import { BoxedIcon } from "../BoxedIcon";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];

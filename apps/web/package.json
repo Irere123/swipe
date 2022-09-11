@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3002",
+    "gql:gen": "graphql-codegen",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -41,6 +42,12 @@
     "zustand": "^4.1.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.12.0",
+    "@graphql-codegen/typed-document-node": "^2.3.3",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+    "@swipe/ui": "*",
     "@types/isomorphic-fetch": "^0.0.36",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
@@ -48,7 +55,6 @@
     "@types/react-responsive": "^8.0.5",
     "@types/react-router-dom": "5",
     "@vitejs/plugin-react": "^2.1.0",
-    "@swipe/ui": "*",
     "autoprefixer": "^10.4.8",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.16",

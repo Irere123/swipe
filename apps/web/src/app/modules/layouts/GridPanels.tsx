@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { BoxedIcon } from "@swipe/ui";
+import { BoxedIcon } from "../../components/BoxedIcon";
 import { SolidFire, SolidHome } from "@swipe/ui/icons";
 import { FixedGridPanel, GridPanel } from "../../components/GridPanels";
 import { MiddleHeader } from "../../components/header/MiddleHeader";

@@ -1,9 +1,10 @@
 import React from "react";
 import { SolidCheck, SolidCross, SolidHeart } from "@swipe/ui/icons";
-import { Text, BoxedIcon } from "@swipe/ui";
 import avatar from "../../assets/avatar.jpg";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
+import { Text } from "../components/Text";
+import { BoxedIcon } from "../components/BoxedIcon";
 
 const HomePage: React.FC = () => {
   return (
