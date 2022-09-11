@@ -44,6 +44,7 @@
     "@types/twitter": "^1.7.1",
     "@types/uuid": "^8.3.4",
     "@types/websocket": "^1.0.5",
+    "@types/ws": "^8.5.3",
     "concurrently": "^7.4.0",
     "nodemon": "^2.0.19",
     "prisma": "^4.3.1",

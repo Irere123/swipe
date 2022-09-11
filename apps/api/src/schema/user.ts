@@ -6,6 +6,7 @@ export const User = objectType({
   definition(t) {
     t.id("id"),
       t.string("username"),
+      t.string("avatarUrl"),
       t.string("displayName"),
       t.string("gender"),
       t.string("location"),
