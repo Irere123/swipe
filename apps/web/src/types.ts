@@ -10,6 +10,7 @@ export type BaseUser = {
   numlikes: number;
   goal: string;
   online: boolean;
+  hasLoggedIn: boolean;
   lastOnline: string;
   schoolName: string;
   createdAt: string;

@@ -1,5 +1,6 @@
 import { Switch, Route } from "react-router-dom";
 import { useTokenStore } from "../global-stores/useTokenStore";
+import AccountSetup from "./pages/AccountSetup";
 import HomePage from "./pages/HomePage";
 import LeaderBoard from "./pages/Leaderboard";
 import MatchChatPage from "./pages/MatchChatPage";
@@ -21,6 +22,7 @@ export const Routes: React.FC = () => {
       {hasTokens && (
         <Switch>
           <Route exact path={`/messages`} component={MessagesPage} />
+          <Route exact path={`/account-setup`} component={AccountSetup} />
           <Route exact path={`/messages/:matchId`} component={MatchChatPage} />
           <Route component={NotFoundPage} />
         </Switch>

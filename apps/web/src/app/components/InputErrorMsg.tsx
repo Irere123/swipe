@@ -1,0 +1,10 @@
+import React, { PropsWithChildren } from "react";
+
+// @todo verify with designer what color this should be
+export const InputErrorMsg: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className={`flex text-secondary`} data-testid="input-error-msg">
+      {children}
+    </div>
+  );
+};

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SolidCheck, SolidCross, SolidHeart } from "@swipe/ui/icons";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
@@ -6,8 +6,12 @@ import { Text } from "../components/Text";
 import { BoxedIcon } from "../components/BoxedIcon";
 import { apiBaseUrl } from "../constants";
 import { BaseUser } from "../../types";
+import { MeContext } from "../utils/UserProvider";
+import { useHistory } from "react-router-dom";
 
 const HomePage: React.FC = () => {
+  const { me } = useContext(MeContext);
+  const { push } = useHistory();
   const [profiles, setProfiles] = useState<BaseUser[]>([]);
   useEffect(() => {
     fetch(`${apiBaseUrl}/feed`, {})
@@ -17,6 +21,11 @@ const HomePage: React.FC = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  if (me && !me.hasLoggedIn) {
+    push("/account-setup");
+    return null;
+  }
   return (
     <MainLayout>
       <div className="flex flex-1 flex-col gap-3 w-full h-full mb-5">
