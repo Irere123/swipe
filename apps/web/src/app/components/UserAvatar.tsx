@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export const avatarSizeMap = {
-  default: "55px",
+  default: "80px",
   lg: "45px",
   md: "40px",
   sm: "35px",

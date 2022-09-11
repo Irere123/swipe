@@ -38,7 +38,7 @@ export const LeftPanel: React.FC = () => {
         </Link>
         <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
           {leaderboard.map((user) => (
-            <Link to={`/u/${user.id}`}>
+            <Link to={`/u/${user.id}`} key={user.id}>
               <UserAvatar
                 src={user.avatarUrl}
                 username={user.username}

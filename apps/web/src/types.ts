@@ -9,12 +9,14 @@ export type BaseUser = {
   location: string;
   numlikes: number;
   goal: string;
+  online: boolean;
   lastOnline: string;
   schoolName: string;
   createdAt: string;
 };
 
 export type Params = {
+  userId: string;
   matchId: string;
   username: string;
 };

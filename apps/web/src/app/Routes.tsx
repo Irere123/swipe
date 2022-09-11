@@ -5,6 +5,7 @@ import LeaderBoard from "./pages/Leaderboard";
 import MatchChatPage from "./pages/MatchChatPage";
 import MessagesPage from "./pages/MessagesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 export const Routes: React.FC = () => {
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.accessToken);
@@ -14,6 +15,7 @@ export const Routes: React.FC = () => {
       {/* PUBLIC ROUTES */}
       <Route exact path={`/`} component={HomePage} />
       <Route exact path={`/leaderboard`} component={LeaderBoard} />
+      <Route exact path={`/u/:userId`} component={UserProfilePage} />
 
       {/* PRIVATE ROUTES */}
       {hasTokens && (
