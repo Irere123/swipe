@@ -1,3 +1,4 @@
+import { SolidHeart } from "@swipe/ui";
 import React, { useContext } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
@@ -73,6 +74,7 @@ const UserProfilePage: React.FC = () => {
                 Edit profile
               </Button>
             )}
+            <Button icon={<SolidHeart />}>{user.numLikes} Likes</Button>
           </div>
         </div>
       </div>

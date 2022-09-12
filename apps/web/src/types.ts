@@ -7,7 +7,7 @@ export type BaseUser = {
   gender: string;
   birthday: string;
   location: string;
-  numlikes: number;
+  numLikes: number;
   goal: string;
   online: boolean;
   hasLoggedIn: boolean;
