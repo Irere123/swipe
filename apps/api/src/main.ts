@@ -1,13 +1,25 @@
 import "dotenv-safe/config";
 import express from "express";
 import cors from "cors";
+import url from "url";
 import HTTP from "http";
+import { Server, WebSocket } from "ws";
 import { PrismaClient } from "@prisma/client";
 import { __prod__ } from "./lib/constants";
 import { DevOnly, MainRoutes, UserOnly } from "./routes";
 import { isAuth } from "./lib/isAuth";
+import { verify } from "jsonwebtoken";
 
 export const prisma = new PrismaClient();
+export const wsUsers: Record<
+  string,
+  { ws: WebSocket; openChatUserId: string | null }
+> = {};
+export const wsSend = (key: string, v: any) => {
+  if (key in wsUsers) {
+    wsUsers[key].ws.send(JSON.stringify(v));
+  }
+};
 
 const main = async () => {
   const app = express();
@@ -82,6 +94,93 @@ const main = async () => {
   });
 
   const http = HTTP.createServer(app);
+  const wss = new Server({ noServer: true });
+
+  wss.on("connection", (ws: WebSocket, userId: string) => {
+    if (!userId) {
+      ws.terminate();
+      return;
+    }
+
+    // console.log("ws open: ", userId);
+    wsUsers[userId] = { openChatUserId: null, ws };
+
+    ws.on("message", async (e: any) => {
+      const {
+        type,
+        userId: openChatUserId,
+      }: { type: "message-open"; userId: string } = JSON.parse(e);
+      if (type === "message-open") {
+        if (userId in wsUsers) {
+          await prisma.user.update({
+            data: { online: true },
+            where: { id: userId },
+          });
+          wsUsers[userId].openChatUserId = openChatUserId;
+        }
+      }
+    });
+
+    ws.on("close", async () => {
+      if (!__prod__) {
+        console.log("ws close: ", userId);
+      }
+      await prisma.user.update({
+        data: { online: false },
+        where: { id: userId },
+      });
+      delete wsUsers[userId];
+    });
+  });
+
+  http.on("upgrade", async function upgrade(request, socket, head) {
+    const good = (userId: string) => {
+      wss.handleUpgrade(request, socket, head, function done(ws) {
+        wss.emit("connection", ws, userId);
+      });
+    };
+    const bad = () => {
+      socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+      socket.destroy();
+    };
+    try {
+      const {
+        query: { accessToken, refreshToken },
+      } = url.parse(request.url!, true);
+      if (
+        !accessToken ||
+        !refreshToken ||
+        typeof accessToken !== "string" ||
+        typeof refreshToken !== "string"
+      ) {
+        return bad();
+      }
+      try {
+        const data = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_SECRET
+        ) as any;
+        return good(data.userId);
+      } catch {}
+
+      try {
+        const data = verify(
+          refreshToken,
+          process.env.REFRESH_TOKEN_SECRET
+        ) as any;
+        const user = await prisma.user.findFirst({
+          where: { id: data.userId },
+        });
+        // token has been invalidated or user deleted
+        if (!user || user.tokenVersion !== data.tokenVersion) {
+          return bad();
+        }
+        return good(data.userId);
+      } catch {}
+    } catch {}
+
+    return bad();
+  });
 
   http.listen(4000, () => {
     console.log(`🚀🚀🚀 API Server running at http://localhost:4000}`);
