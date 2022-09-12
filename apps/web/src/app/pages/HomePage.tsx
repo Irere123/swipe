@@ -10,22 +10,14 @@ import { MeContext } from "../utils/UserProvider";
 import { useHistory } from "react-router-dom";
 import { useTokenStore } from "../../global-stores/useTokenStore";
 import { useModalStore } from "../../global-stores/useModalStore";
+import { useQuery } from "react-query";
 
 const HomePage: React.FC = () => {
   const { me } = useContext(MeContext);
   const { setOpenLoginModal, openLoginModal } = useModalStore();
   const { push } = useHistory();
-  const [profiles, setProfiles] = useState<BaseUser[]>([]);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.accessToken);
-
-  useEffect(() => {
-    fetch(`${apiBaseUrl}/feed`, {})
-      .then((x) => x.json())
-      .then((d) => {
-        setProfiles(d.profiles);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const { data, isLoading } = useQuery<{ profiles: BaseUser[] }>("/feed");
 
   if (me && !me.hasLoggedIn) {
     push("/account-setup");
@@ -41,7 +33,7 @@ const HomePage: React.FC = () => {
   return (
     <MainLayout>
       <div className="flex flex-1 flex-col gap-3 w-full h-full mb-5">
-        {profiles.map((user) => (
+        {data?.profiles.map((user) => (
           <div
             className="flex gap-2 border-b-2 border-b-primary-dark pb-4"
             key={user.id}

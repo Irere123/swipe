@@ -10,7 +10,7 @@ import { DevOnly, MainRoutes, UserOnly } from "./routes";
 import { isAuth } from "./lib/isAuth";
 import { verify } from "jsonwebtoken";
 
-export const prisma = new PrismaClient({ log: ["info", "query"] });
+export const prisma = new PrismaClient();
 export const wsUsers: Record<
   string,
   { ws: WebSocket; openChatUserId: string | null }
@@ -80,15 +80,35 @@ const main = async () => {
     res.json({ numUsers });
   });
 
-  app.get("/feed", async (_req, res) => {
-    const profiles = await prisma.$queryRaw`
-      select u.id, "username", "displayName", "birthday", bio, "avatarUrl"
-      from users u
-      order by
-        random()
-       
-      limit 20;
-  `;
+  app.get("/feed", isAuth(false), async (req, res) => {
+    const loggedIn = req.userId !== undefined;
+    let profiles = undefined;
+
+    if (!loggedIn) {
+      profiles = await prisma.$queryRaw`
+        select u.id, "username", "displayName", "birthday", bio, "avatarUrl"
+        from users u
+        order by u."numLikes" limit 20;
+      `;
+    } else {
+      profiles = await prisma.$queryRaw`
+        select u.id, "username", "displayName", "birthday", bio, "avatarUrl"
+        from users u
+        left join views v on v."viewerId" = ${req.userId}::UUID and u.id = v."targetId"
+        left join views v2 on ${req.userId}::UUID = v2."targetId" and v2.liked = true and u.id = v2."viewerId"
+        where
+        v is null
+        and u.id != ${req.userId}::UUID
+        order by
+          random()
+          - (case
+              when (v2 is not null)
+              then .2
+              else -least(current_timestamp::date - u."lastOnline"::date, 14) / 14.0
+            end)
+        limit 20;
+    `;
+    }
 
     res.json({ profiles });
   });

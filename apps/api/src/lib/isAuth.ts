@@ -9,7 +9,9 @@ import {
 
 const prisma = new PrismaClient();
 
-export const isAuth: (st?: boolean) => RequestHandler<{}, any, any, {}> =
+export const isAuth: (
+  shouldThrow?: boolean
+) => RequestHandler<{}, any, any, {}> =
   (shouldThrow = true) =>
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const accessToken = req.headers["access-token"];
