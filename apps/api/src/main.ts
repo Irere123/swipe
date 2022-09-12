@@ -32,7 +32,7 @@ const main = async () => {
   app.get("/me", isAuth(false), async (req, res) => {
     const leaderboard = await prisma.$queryRaw`
       select u.id, "avatarUrl", "username", "bio", "displayName" 
-      from users u order by u."numLikes" DESC limit 5
+      from users u order by u."numLikes" DESC limit 3
     `;
 
     if (!req.userId) {
