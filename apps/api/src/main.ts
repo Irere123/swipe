@@ -122,29 +122,28 @@ const main = async () => {
       return;
     }
 
-    // console.log("ws open: ", userId);
+    ws.on("open", async () => {
+      await prisma.user.update({
+        data: { online: true },
+        where: { id: userId },
+      });
+    });
+
     wsUsers[userId] = { openChatUserId: null, ws };
 
-    ws.on("message", async (e: any) => {
+    ws.on("message", async (e) => {
       const {
         type,
         userId: openChatUserId,
-      }: { type: "message-open"; userId: string } = JSON.parse(e);
+      }: { type: "message-open"; userId: string } = JSON.parse(e as any);
       if (type === "message-open") {
         if (userId in wsUsers) {
-          await prisma.user.update({
-            data: { online: true },
-            where: { id: userId },
-          });
           wsUsers[userId].openChatUserId = openChatUserId;
         }
       }
     });
 
     ws.on("close", async () => {
-      if (!__prod__) {
-        console.log("ws close: ", userId);
-      }
       await prisma.user.update({
         data: { online: false },
         where: { id: userId },

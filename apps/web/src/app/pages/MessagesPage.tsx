@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.jpg";
 import { MessageUserCard } from "../components/MessageElements/MessageUserCard";
 import { MainLayout } from "../modules/layouts/MainLayout";
+import { wsend } from "../utils/socket";
+import { MeContext } from "../utils/UserProvider";
 
 const users = [
   { avatarUrl: avatar, username: "Alicia Mary", isOnline: true },
@@ -12,6 +14,10 @@ const users = [
 
 const MessagesPage: React.FC = () => {
   const { replace } = useHistory();
+  const { me } = useContext(MeContext);
+
+  wsend({ type: "message-open", userId: me?.id! });
+
   return (
     <MainLayout>
       <div className="flex flex-col gap-3">
