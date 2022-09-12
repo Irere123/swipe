@@ -8,7 +8,6 @@ import { ChatHeader } from "../modules/chat/ChatHeader";
 import { ChatInput } from "../modules/chat/ChatInput";
 import { MessagesController } from "../modules/chat/MessagesController";
 import { LeftPanel } from "../modules/layouts/GridPanels";
-import { MainLayout } from "../modules/layouts/MainLayout";
 
 const MatchChatPage: React.FC = () => {
   const { matchId } = useParams<Params>();
@@ -18,10 +17,7 @@ const MatchChatPage: React.FC = () => {
       <MainInnerGrid>
         <LeftPanel />
         <GridPanel>
-          <ChatHeader
-            matchId={matchId}
-            user={{ avatarUrl: avatar, username: "Jenny", isOnline: true }}
-          />
+          <ChatHeader matchId={matchId} />
           <div className="flex flex-1 w-full flex-col">
             <MessagesController
               matchId={matchId}

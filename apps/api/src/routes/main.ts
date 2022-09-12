@@ -80,4 +80,23 @@ router.get("/matches/:cursor", async (req, res) => {
   res.json({ matches });
 });
 
+router.get("/match/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const match: any = await prisma.$queryRaw`
+    select 
+    case
+      when u.id = ma."userId1" then ma.read2
+      else ma.read1
+    end "read",
+    ma.id "matchId",
+    u.id "userId", u."avatarUrl",u."online", u."lastOnline", u."displayName"
+    from matches ma
+    inner join users u on u.id != ${req.userId}::UUID and (u.id = ma."userId1" or u.id = ma."userId2")
+    where (ma."userId1" = ${userId}::UUID or ma."userId2" = ${userId}::UUID) and ma.unmatched = false
+    limit 1
+   `;
+
+  res.json(match[0]);
+});
+
 export default router;

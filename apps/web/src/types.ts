@@ -23,18 +23,16 @@ export type Params = {
 };
 
 export type Match = {
-  id: string;
+  matchId: string;
+  userId: string;
+  avatarUrl: string;
+  online: boolean;
+  lastOnline: boolean;
+  displayName: string;
+  createdAt: string;
+  message: string | null;
 };
 
 export type MatchesResponse = {
-  matches: {
-    matchId: string;
-    userId: string;
-    avatarUrl: string;
-    online: boolean;
-    lastOnline: boolean;
-    displayName: string;
-    createdAt: string;
-    message: string | null;
-  }[];
+  matches: Match[];
 };
