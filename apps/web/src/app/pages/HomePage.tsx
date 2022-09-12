@@ -62,7 +62,13 @@ const HomePage: React.FC = () => {
             </div>
             <div>
               <div>
-                <Text variant="username">{user.displayName}</Text>
+                <Text
+                  variant="username"
+                  className="cursor-pointer"
+                  onClick={() => push(`/u/${user.id}`)}
+                >
+                  {user.displayName}
+                </Text>
                 <p className="w-300">{user.bio}</p>
               </div>
               <div className="flex gap-2">
@@ -77,14 +83,14 @@ const HomePage: React.FC = () => {
                     color="primary"
                     circle
                   >
-                    <SolidCross />
+                    <SolidCross fill="var(--color-secondary)" />
                   </BoxedIcon>
                   <BoxedIcon
                     onClick={() => view(true, user.id)}
                     color="primary"
                     circle
                   >
-                    <SolidHeart />
+                    <SolidHeart fill="var(--color-accent)" />
                   </BoxedIcon>
                 </div>
               </div>

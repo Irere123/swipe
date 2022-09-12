@@ -69,7 +69,7 @@ model Message {
   senderId   String?  @db.Uuid
   receiver   User?    @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
   receiverId String?  @db.Uuid
-  createAt   DateTime @default(now()) @db.Timestamptz()
+  createdAt  DateTime @default(now()) @db.Timestamptz()
 
   @@map("messages")
 }

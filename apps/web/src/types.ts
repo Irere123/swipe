@@ -21,3 +21,20 @@ export type Params = {
   matchId: string;
   username: string;
 };
+
+export type Match = {
+  id: string;
+};
+
+export type MatchesResponse = {
+  matches: {
+    matchId: string;
+    userId: string;
+    avatarUrl: string;
+    online: boolean;
+    lastOnline: boolean;
+    displayName: string;
+    createdAt: string;
+    message: string | null;
+  }[];
+};

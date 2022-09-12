@@ -10,7 +10,7 @@ const Cross = (props: React.SVGProps<SVGSVGElement>) => {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      fill="none"
+      fill="currentColor"
       shapeRendering="geometricPrecision"
       {...props}
     >
