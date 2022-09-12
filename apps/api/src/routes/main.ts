@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { View } from "@prisma/client";
-import { prisma, wsSend } from "../main";
+import { prisma, wsSend, wsUsers } from "../main";
 import { getUserIdOrder } from "../lib/getUserIdOrder";
 
 const router = Router();
@@ -111,6 +111,32 @@ router.post("/unmatch", async (req, res) => {
   wsSend(userId, { type: "unmatch", userId: req.userId });
 
   res.json({ ok: true });
+});
+
+router.post("/message", async (req, res) => {
+  const m = await prisma.message.create({
+    data: {
+      ...req.body,
+      senderId: req.userId,
+    },
+  });
+
+  wsSend(m.receiverId!, { type: "new-message", message: m });
+
+  res.send({ message: m });
+
+  if (
+    !(m.receiverId! in wsUsers) ||
+    wsUsers[m.receiverId!].openChatUserId !== req.userId
+  ) {
+    const userIdOrder = getUserIdOrder(req.userId!, m.receiverId!);
+    await prisma.$queryRaw`
+     UPDATE matches m SET ${
+       userIdOrder.userId1 === m.receiverId ? "read1" : "read2"
+     } = false where m."userId1"=${userIdOrder.userId1}::UUID and 
+     m."userId2"=${userIdOrder.userId2}::UUID
+    `;
+  }
 });
 
 export default router;

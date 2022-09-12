@@ -122,13 +122,6 @@ const main = async () => {
       return;
     }
 
-    ws.on("open", async () => {
-      await prisma.user.update({
-        data: { online: true },
-        where: { id: userId },
-      });
-    });
-
     wsUsers[userId] = { openChatUserId: null, ws };
 
     ws.on("message", async (e) => {
@@ -144,10 +137,6 @@ const main = async () => {
     });
 
     ws.on("close", async () => {
-      await prisma.user.update({
-        data: { online: false },
-        where: { id: userId },
-      });
       delete wsUsers[userId];
     });
   });

@@ -5,7 +5,7 @@ import { MatchesResponse } from "../../types";
 import { MessageUserCard } from "../components/MessageElements/MessageUserCard";
 import { Text } from "../components/Text";
 import { MainLayout } from "../modules/layouts/MainLayout";
-import { wsend } from "../utils/socket";
+import { getSocket } from "../utils/socket";
 import { MeContext } from "../utils/UserProvider";
 
 const MessagesPage: React.FC = () => {
@@ -13,7 +13,7 @@ const MessagesPage: React.FC = () => {
   const { me } = useContext(MeContext);
   const { data, isLoading } = useQuery<MatchesResponse>("/api/matches/0");
 
-  wsend({ type: "message-open", userId: me?.id! });
+  getSocket().send(JSON.stringify({ type: "message-open", userId: me?.id! }));
 
   if (isLoading) {
     return null;
