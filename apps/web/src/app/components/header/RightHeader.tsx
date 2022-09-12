@@ -122,21 +122,9 @@ export const RightHeader: React.FC = () => {
             </BoxedIcon>
           </Link>
           <div>
-            {/* <DropdownController
-              zIndex={1000}
-              className="top-9 right-3 md:right-0 fixed"
-              innerClassName="fixed  transform -translate-x-full"
-              overlay={(close) => (
-                <ProfileDropdown
-                  onActionButtonClicked={() => {}}
-                  onCloseDropdown={close}
-                  user={{ username: "di" }}
-                />
-              )}
-            >
-              <UserAvatar src={avatar} size="sm" />
-            </DropdownController> */}
-            <UserAvatar src={me?.avatarUrl!} size="sm" />
+            <Link to={`/u/${me?.id}`}>
+              <UserAvatar src={me?.avatarUrl!} size="sm" />
+            </Link>
           </div>
         </div>
       )}

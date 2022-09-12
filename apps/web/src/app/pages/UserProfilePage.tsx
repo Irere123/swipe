@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { useTokenStore } from "../../global-stores/useTokenStore";
 import { BaseUser, Params } from "../../types";
@@ -13,7 +13,10 @@ const UserProfilePage: React.FC = () => {
   const { userId } = useParams<Params>();
   const { push } = useHistory();
   const { me } = useContext(MeContext);
-  const { data, isLoading } = useQuery<{ user: BaseUser }>(`/u/${userId}`);
+  const { data, isLoading } = useQuery<{ user: BaseUser }>(
+    `/u/profile/${userId}`
+  );
+  const queryClient = useQueryClient();
 
   if (isLoading) {
     return null;
@@ -43,7 +46,19 @@ const UserProfilePage: React.FC = () => {
                     useTokenStore
                       .getState()
                       .setTokens({ accessToken: "", refreshToken: "" });
-
+                    queryClient.setQueryData<
+                      | { user: BaseUser | null; leaderboard: BaseUser[] }
+                      | null
+                      | undefined
+                    >("/me", (x) =>
+                      !x
+                        ? x
+                        : {
+                            ...x,
+                            user: null,
+                          }
+                    );
+                    push("/");
                     push("/logout");
                   })
                 }
@@ -53,7 +68,11 @@ const UserProfilePage: React.FC = () => {
             ) : (
               <Button>Match</Button>
             )}
-            {me?.id === user.id && <Button>Edit profile</Button>}
+            {me?.id === user.id && (
+              <Button onClick={() => push("/account-setup")}>
+                Edit profile
+              </Button>
+            )}
           </div>
         </div>
       </div>

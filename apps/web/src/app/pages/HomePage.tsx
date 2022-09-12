@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
             </div>
             <div>
               <div>
-                <Text>{user.displayName}</Text>
+                <Text variant="username">{user.displayName}</Text>
                 <p className="w-300">{user.bio}</p>
               </div>
               <div className="flex gap-2">
