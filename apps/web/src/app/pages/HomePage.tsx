@@ -1,34 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
-import { SolidCheck, SolidCross, SolidHeart } from "@swipe/ui/icons";
+import React, { useContext } from "react";
+import { SolidCross, SolidHeart } from "@swipe/ui/icons";
 import { UserAvatar } from "../components/UserAvatar";
 import { MainLayout } from "../modules/layouts/MainLayout";
 import { Text } from "../components/Text";
 import { BoxedIcon } from "../components/BoxedIcon";
-import { apiBaseUrl } from "../constants";
 import { BaseUser } from "../../types";
 import { MeContext } from "../utils/UserProvider";
 import { useHistory } from "react-router-dom";
 import { useTokenStore } from "../../global-stores/useTokenStore";
 import { useModalStore } from "../../global-stores/useModalStore";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
+import { mutation } from "../utils/mutation";
 
 const HomePage: React.FC = () => {
+  const queryClient = useQueryClient();
   const { me } = useContext(MeContext);
   const { setOpenLoginModal, openLoginModal } = useModalStore();
   const { push } = useHistory();
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.accessToken);
-  const { data, isLoading } = useQuery<{ profiles: BaseUser[] }>("/feed");
+  const { data } = useQuery<{ profiles: BaseUser[] }>("/feed");
 
   if (me && !me.hasLoggedIn) {
     push("/account-setup");
     return null;
   }
 
-  const buttonClick = (liked: boolean, matched: boolean) => {
+  const view = async (liked: boolean, userId: string) => {
     if (!hasTokens) {
       setOpenLoginModal(!openLoginModal);
       return;
     }
+    await mutation("/api/view", { liked, userId }, { method: "POST" });
+
+    queryClient.setQueryData<{ profiles: BaseUser[] } | undefined>(
+      "/feed",
+      (x) =>
+        !x
+          ? x
+          : {
+              ...x.profiles,
+              profiles: x.profiles.filter((x) => x.id !== userId),
+            }
+    );
   };
   return (
     <MainLayout>
@@ -60,21 +73,14 @@ const HomePage: React.FC = () => {
 
                 <div className="flex flex-1 flex-col-reverse gap-3">
                   <BoxedIcon
-                    onClick={() => buttonClick(true, true)}
+                    onClick={() => view(false, user.id)}
                     color="primary"
                     circle
                   >
                     <SolidCross />
                   </BoxedIcon>
                   <BoxedIcon
-                    onClick={() => buttonClick(true, false)}
-                    color="primary"
-                    circle
-                  >
-                    <SolidCheck />
-                  </BoxedIcon>
-                  <BoxedIcon
-                    onClick={() => buttonClick(false, false)}
+                    onClick={() => view(true, user.id)}
                     color="primary"
                     circle
                   >
