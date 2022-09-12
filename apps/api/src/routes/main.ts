@@ -21,7 +21,8 @@ router.post("/view", async (req, res) => {
     ]);
     fav = _fav;
   } catch (err: any) {
-    if (err.message.includes("duplicate key")) {
+    console.log("Error", err);
+    if (err.message.includes("Unique constraint failed")) {
       res.json({
         match: false,
         ok: false,
@@ -97,6 +98,19 @@ router.get("/match/:userId", async (req, res) => {
    `;
 
   res.json(match[0]);
+});
+
+router.post("/unmatch", async (req, res) => {
+  const { userId } = req.body;
+  const { userId1, userId2 } = getUserIdOrder(req.userId!, userId);
+
+  await prisma.$queryRaw`
+    delete from matches m where m."userId1"=${userId1}::UUID 
+    and m."userId2" =${userId2}::UUID
+  `;
+  wsSend(userId, { type: "unmatch", userId: req.userId });
+
+  res.json({ ok: true });
 });
 
 export default router;

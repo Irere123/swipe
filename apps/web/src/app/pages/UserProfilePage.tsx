@@ -39,40 +39,38 @@ const UserProfilePage: React.FC = () => {
           <p>@{user.username}</p>
           <p>{user.bio}</p>
           <div className="flex gap-3">
-            {me?.id === user.id ? (
-              <Button
-                color="secondary"
-                onClick={() =>
-                  modalConfirm("Are you sure want to logout", () => {
-                    useTokenStore
-                      .getState()
-                      .setTokens({ accessToken: "", refreshToken: "" });
-                    queryClient.setQueryData<
-                      | { user: BaseUser | null; leaderboard: BaseUser[] }
-                      | null
-                      | undefined
-                    >("/me", (x) =>
-                      !x
-                        ? x
-                        : {
-                            ...x,
-                            user: null,
-                          }
-                    );
-                    push("/");
-                    push("/logout");
-                  })
-                }
-              >
-                Logout
-              </Button>
-            ) : (
-              <Button>Match</Button>
-            )}
             {me?.id === user.id && (
-              <Button onClick={() => push("/account-setup")}>
-                Edit profile
-              </Button>
+              <>
+                <Button
+                  color="secondary"
+                  onClick={() =>
+                    modalConfirm("Are you sure want to logout", () => {
+                      useTokenStore
+                        .getState()
+                        .setTokens({ accessToken: "", refreshToken: "" });
+                      queryClient.setQueryData<
+                        | { user: BaseUser | null; leaderboard: BaseUser[] }
+                        | null
+                        | undefined
+                      >("/me", (x) =>
+                        !x
+                          ? x
+                          : {
+                              ...x,
+                              user: null,
+                            }
+                      );
+                      push("/");
+                      push("/logout");
+                    })
+                  }
+                >
+                  Logout
+                </Button>
+                <Button onClick={() => push("/account-setup")}>
+                  Edit profile
+                </Button>
+              </>
             )}
             <Button icon={<SolidHeart />}>{user.numLikes} Likes</Button>
           </div>
