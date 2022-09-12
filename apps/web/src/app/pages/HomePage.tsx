@@ -8,11 +8,16 @@ import { apiBaseUrl } from "../constants";
 import { BaseUser } from "../../types";
 import { MeContext } from "../utils/UserProvider";
 import { useHistory } from "react-router-dom";
+import { useTokenStore } from "../../global-stores/useTokenStore";
+import { useModalStore } from "../../global-stores/useModalStore";
 
 const HomePage: React.FC = () => {
   const { me } = useContext(MeContext);
+  const { setOpenLoginModal, openLoginModal } = useModalStore();
   const { push } = useHistory();
   const [profiles, setProfiles] = useState<BaseUser[]>([]);
+  const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.accessToken);
+
   useEffect(() => {
     fetch(`${apiBaseUrl}/feed`, {})
       .then((x) => x.json())
@@ -26,6 +31,13 @@ const HomePage: React.FC = () => {
     push("/account-setup");
     return null;
   }
+
+  const buttonClick = (liked: boolean, matched: boolean) => {
+    if (!hasTokens) {
+      setOpenLoginModal(!openLoginModal);
+      return;
+    }
+  };
   return (
     <MainLayout>
       <div className="flex flex-1 flex-col gap-3 w-full h-full mb-5">
@@ -53,14 +65,27 @@ const HomePage: React.FC = () => {
                   className="bg-accent-disabled w-300 h-400 mt-3 rounded-lg"
                   src={user.avatarUrl}
                 />
+
                 <div className="flex flex-1 flex-col-reverse gap-3">
-                  <BoxedIcon color="primary" circle>
+                  <BoxedIcon
+                    onClick={() => buttonClick(true, true)}
+                    color="primary"
+                    circle
+                  >
                     <SolidCross />
                   </BoxedIcon>
-                  <BoxedIcon color="primary" circle>
+                  <BoxedIcon
+                    onClick={() => buttonClick(true, false)}
+                    color="primary"
+                    circle
+                  >
                     <SolidCheck />
                   </BoxedIcon>
-                  <BoxedIcon color="primary" circle>
+                  <BoxedIcon
+                    onClick={() => buttonClick(false, false)}
+                    color="primary"
+                    circle
+                  >
                     <SolidHeart />
                   </BoxedIcon>
                 </div>

@@ -11,11 +11,11 @@ import {
   SolidTwitter,
 } from "@swipe/ui";
 import { Modal } from "../Modal";
-import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
 import { Button } from "../Button";
 import { BoxedIcon } from "../BoxedIcon";
 import { MeContext } from "../../utils/UserProvider";
+import { useModalStore } from "../../../global-stores/useModalStore";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -55,18 +55,17 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 };
 
 export const RightHeader: React.FC = () => {
-  const [openLogin, setOpenLogin] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
   const { push } = useHistory();
   const { me } = useContext(MeContext);
+  const { openLoginModal, setOpenLoginModal } = useModalStore();
 
   return (
     <div className="flex gap-2">
-      {openLogin && (
+      {openLoginModal && (
         <Modal
-          isOpen={openLogin}
-          onRequestClose={() => setOpenLogin(!openLogin)}
+          isOpen={openLoginModal}
+          onRequestClose={() => setOpenLoginModal(!openLoginModal)}
         >
           <h4 className="font-bold text-center mb-4">Login in to Swipe</h4>
           <div className="flex gap-3 flex-col w-full">
@@ -97,7 +96,7 @@ export const RightHeader: React.FC = () => {
                   accessToken: d.accessToken,
                   refreshToken: d.refreshToken,
                 });
-                setOpenLogin(!openLogin);
+                setOpenLoginModal(!openLoginModal);
                 push("/");
               }}
             >
@@ -109,7 +108,9 @@ export const RightHeader: React.FC = () => {
       )}
       {!hasTokens && !me ? (
         <>
-          <Button onClick={() => setOpenLogin(!openLogin)}>Login</Button>
+          <Button onClick={() => setOpenLoginModal(!openLoginModal)}>
+            Login
+          </Button>
           <BoxedIcon>
             <SolidMoreVert width={24} height={27} />
           </BoxedIcon>
