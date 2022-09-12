@@ -10,7 +10,7 @@ import { DevOnly, MainRoutes, UserOnly } from "./routes";
 import { isAuth } from "./lib/isAuth";
 import { verify } from "jsonwebtoken";
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({ log: ["info", "query"] });
 export const wsUsers: Record<
   string,
   { ws: WebSocket; openChatUserId: string | null }
