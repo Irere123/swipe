@@ -26,7 +26,7 @@ const main = async () => {
 
   app.use(express.json());
   app.use("/u", isAuth(false), UserOnly);
-  app.use("/", isAuth(), MainRoutes);
+  app.use("/api", isAuth(), MainRoutes);
   if (!__prod__) {
     app.use("/dev", DevOnly);
   }
