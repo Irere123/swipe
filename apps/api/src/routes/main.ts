@@ -100,6 +100,16 @@ router.get("/match/:userId", async (req, res) => {
   res.json(match[0]);
 });
 
+router.get("/messages/:userId/:cursor?", async (req, res) => {
+  const { userId, cursor } = req.params;
+
+  await prisma.$queryRaw`
+   SELECT * FROM messages m WHERE (m."receiverId" = ${userId}::UUID AND m."senderId"=${req.userId}::UUID)
+   OR (m."receiverId" = ${req.userId}::UUID AND m."senderId"=${userId}::UUID) BY 
+   m."createdAt" DESC LIMIT 21 
+  `;
+});
+
 router.post("/unmatch", async (req, res) => {
   const { userId } = req.body;
   const { userId1, userId2 } = getUserIdOrder(req.userId!, userId);
