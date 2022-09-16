@@ -4,9 +4,7 @@ import { MainLayout } from "../modules/layouts/MainLayout";
 const LeaderBoard: React.FC = () => {
   return (
     <MainLayout>
-      <div>
-        <p></p>
-      </div>
+      <div className="flex flex-col gap-3"></div>
     </MainLayout>
   );
 };

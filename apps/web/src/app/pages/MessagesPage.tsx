@@ -1,29 +1,48 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import avatar from "../../assets/avatar.jpg";
+import { MatchesResponse } from "../../types";
 import { MessageUserCard } from "../components/MessageElements/MessageUserCard";
+import { Text } from "../components/Text";
 import { MainLayout } from "../modules/layouts/MainLayout";
-
-const users = [
-  { avatarUrl: avatar, username: "Alicia Mary", isOnline: true },
-  { avatarUrl: avatar, username: "Kent Hooli", isOnline: false },
-  { avatarUrl: avatar, username: "Musixcal", isOnline: true },
-];
+import { getSocket } from "../utils/socket";
+import { MeContext } from "../utils/UserProvider";
 
 const MessagesPage: React.FC = () => {
   const { replace } = useHistory();
+  const { me } = useContext(MeContext);
+  const { data, isLoading } = useQuery<MatchesResponse>("/api/matches/0");
+
+  getSocket().send(JSON.stringify({ type: "message-open", userId: me?.id! }));
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (!data?.matches.length) {
+    return (
+      <MainLayout>
+        <div className="flex flex-col gap-3">
+          <h4 className="font-bold">Messages</h4>
+          <Text>You haven't matched with anyone yet!</Text>
+        </div>
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
       <div className="flex flex-col gap-3">
         <h4 className="font-bold">Messages</h4>
-        {Array.from(users).map((u, idx) => (
+        {data.matches.map((u) => (
           <MessageUserCard
-            key={idx}
+            key={u.userId}
             avatarUrl={u.avatarUrl}
-            isOnline={u.isOnline}
-            username={u.username}
+            lastMsg={u.message}
+            isOnline={u.online}
+            username={u.displayName}
             onClick={() => {
-              replace(`/messages/${3208923237}`);
+              replace(`/messages/${u.userId}`);
             }}
           />
         ))}

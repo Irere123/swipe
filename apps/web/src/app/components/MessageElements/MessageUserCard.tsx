@@ -1,20 +1,19 @@
 import React, { PropsWithChildren } from "react";
-import { format } from "date-fns";
-import { Tag } from "../Tag";
 import { UserAvatar } from "../UserAvatar";
-import { useScreenType } from "../../hooks/useScreenType";
+import { useScreenType } from "@swipe/ui";
+import { Text } from "../Text";
 
 export interface MessageUserCardProps extends PropsWithChildren {
   username: string;
   avatarUrl: string;
-  lastMsg?: string;
+  lastMsg: string | null;
   isOnline?: boolean;
   onClick: () => void;
 }
 
 export const MessageUserCard: React.FC<MessageUserCardProps> = ({
   avatarUrl,
-  lastMsg = "Say Hi",
+  lastMsg,
   username,
   isOnline,
   onClick,
@@ -39,9 +38,9 @@ export const MessageUserCard: React.FC<MessageUserCardProps> = ({
       <div className="flex flex-1 w-full">
         <div className="flex  flex-1 w-full flex-col">
           <div className="flex flex-1">
-            <p className="font-bold select-none">{username}</p>
+            <Text variant="username">{username}</Text>
           </div>
-          <p className="select-none text-sm">{lastMsg}</p>
+          <p className="select-none text-sm">{lastMsg ? lastMsg : "Say Hi"}</p>
         </div>
       </div>
     </div>

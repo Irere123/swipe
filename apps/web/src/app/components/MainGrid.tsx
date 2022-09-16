@@ -1,5 +1,5 @@
 import React from "react";
-import { useScreenType } from "../hooks/useScreenType";
+import { useScreenType } from "@swipe/ui";
 
 interface DashboardGridProps {
   className?: string;

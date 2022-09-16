@@ -1,33 +1,42 @@
 import React from "react";
+import { SolidFriends } from "@swipe/ui/icons";
 import { Link, useHistory } from "react-router-dom";
+import { modalConfirm } from "../../components/ComfirmModal";
+import { UserAvatar } from "../../components/UserAvatar";
+import { Text } from "../../components/Text";
 import { BoxedIcon } from "../../components/BoxedIcon";
 import { Button } from "../../components/Button";
-import { modalConfirm } from "../../components/ComfirmModal";
-import { SolidFriends } from "../../components/icons";
-import { Text } from "../../components/Text";
-import { UserAvatar } from "../../components/UserAvatar";
+import { useQuery, useQueryClient } from "react-query";
+import { Match, MatchesResponse } from "../../../types";
+import { mutation } from "../../utils/mutation";
 
 interface ChatHeaderProps {
-  user: any;
   matchId: string;
 }
 
-export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId, user }) => {
+export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId }) => {
+  const queryClient = useQueryClient();
   const { push } = useHistory();
+  const { data, isLoading } = useQuery<Match>(`/api/match/${matchId}`);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <div className="flex z-50 gap-3 sticky top-0 bg-primary p-3 border-b-2 border-b-primary-dark-2">
       <div>
         <UserAvatar
-          src={user.avatarUrl}
-          username={user.username}
-          isOnline={user.isOnline}
+          src={data?.avatarUrl!}
+          username={data?.displayName}
+          isOnline={data?.online}
           size="md"
         />
       </div>
       <div>
-        <Text variant="username">{user.username}</Text>
+        <Text variant="username">{data?.displayName}</Text>
         <Text variant="info">
-          {user.isOnline ? <>Online</> : <>last online</>}
+          {data?.online ? <>Online</> : <>last online</>}
         </Text>
       </div>
       <div className="flex flex-1 justify-end">
@@ -40,9 +49,30 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ matchId, user }) => {
           <div>
             <Button
               onClick={() =>
-                modalConfirm("Are you sure you want to unmatch", () => {
-                  console.log("unmatched");
-                  push("/");
+                modalConfirm("Are you sure you want to unmatch", async () => {
+                  const resp: { ok: boolean } = await mutation(
+                    "/api/unmatch",
+                    {
+                      userId: matchId,
+                    },
+                    { method: "POST" }
+                  );
+
+                  if (resp.ok) {
+                    queryClient.setQueryData<MatchesResponse | undefined>(
+                      "/api/matches/0",
+                      (x) =>
+                        !x
+                          ? x
+                          : {
+                              ...x,
+                              matches: x.matches.filter(
+                                (x) => x.userId !== matchId
+                              ),
+                            }
+                    );
+                    push("/messages");
+                  }
                 })
               }
             >

@@ -1,9 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useTokenStore } from "../../../global-stores/useTokenStore";
 import { apiBaseUrl } from "../../constants";
-import { BoxedIcon } from "../BoxedIcon";
-import { Button } from "../Button";
 import {
   SolidBug,
   SolidFacebook,
@@ -11,12 +9,13 @@ import {
   SolidGoogle,
   SolidMoreVert,
   SolidTwitter,
-} from "../icons";
+} from "@swipe/ui";
 import { Modal } from "../Modal";
-import avatar from "../../../assets/avatar.jpg";
 import { UserAvatar } from "../UserAvatar";
-import { DropdownController } from "../DropdownController";
-import { ProfileDropdown } from "../ProfileDropdown";
+import { Button } from "../Button";
+import { BoxedIcon } from "../BoxedIcon";
+import { MeContext } from "../../utils/UserProvider";
+import { useModalStore } from "../../../global-stores/useModalStore";
 
 interface LoginButtonProps {
   children: [React.ReactNode, React.ReactNode];
@@ -56,17 +55,17 @@ const LoginButton: React.FC<LoginButtonProps> = ({
 };
 
 export const RightHeader: React.FC = () => {
-  const [openLogin, setOpenLogin] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
   const hasTokens = useTokenStore((v) => !!v.accessToken && !!v.refreshToken);
   const { push } = useHistory();
+  const { me } = useContext(MeContext);
+  const { openLoginModal, setOpenLoginModal } = useModalStore();
 
   return (
     <div className="flex gap-2">
-      {openLogin && (
+      {openLoginModal && (
         <Modal
-          isOpen={openLogin}
-          onRequestClose={() => setOpenLogin(!openLogin)}
+          isOpen={openLoginModal}
+          onRequestClose={() => setOpenLoginModal(!openLoginModal)}
         >
           <h4 className="font-bold text-center mb-4">Login in to Swipe</h4>
           <div className="flex gap-3 flex-col w-full">
@@ -97,7 +96,7 @@ export const RightHeader: React.FC = () => {
                   accessToken: d.accessToken,
                   refreshToken: d.refreshToken,
                 });
-                setOpenLogin(!openLogin);
+                setOpenLoginModal(!openLoginModal);
                 push("/");
               }}
             >
@@ -107,9 +106,11 @@ export const RightHeader: React.FC = () => {
           </div>
         </Modal>
       )}
-      {!hasTokens ? (
+      {!hasTokens && !me ? (
         <>
-          <Button onClick={() => setOpenLogin(!openLogin)}>Login</Button>
+          <Button onClick={() => setOpenLoginModal(!openLoginModal)}>
+            Login
+          </Button>
           <BoxedIcon>
             <SolidMoreVert width={24} height={27} />
           </BoxedIcon>
@@ -122,21 +123,9 @@ export const RightHeader: React.FC = () => {
             </BoxedIcon>
           </Link>
           <div>
-            {/* <DropdownController
-              zIndex={1000}
-              className="top-9 right-3 md:right-0 fixed"
-              innerClassName="fixed  transform -translate-x-full"
-              overlay={(close) => (
-                <ProfileDropdown
-                  onActionButtonClicked={() => {}}
-                  onCloseDropdown={close}
-                  user={{ username: "di" }}
-                />
-              )}
-            >
-              <UserAvatar src={avatar} size="sm" />
-            </DropdownController> */}
-            <UserAvatar src={avatar} size="sm" />
+            <Link to={`/u/${me?.id}`}>
+              <UserAvatar src={me?.avatarUrl!} size="sm" />
+            </Link>
           </div>
         </div>
       )}

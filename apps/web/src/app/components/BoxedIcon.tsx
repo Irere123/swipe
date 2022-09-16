@@ -6,14 +6,13 @@ const colorMap = {
   transparent: "bg-transparent",
 };
 
-export interface BoxedIconProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type BoxedIconProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   circle?: boolean;
   transition?: boolean;
   hover?: boolean;
   color?: keyof typeof colorMap;
   class?: string;
-}
+};
 
 export const BoxedIcon: React.FC<BoxedIconProps> = ({
   color = "transparent",

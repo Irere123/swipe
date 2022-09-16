@@ -1,17 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BoxedIcon } from "../../components/BoxedIcon";
+import { SolidFire, SolidHome } from "@swipe/ui/icons";
 import { FixedGridPanel, GridPanel } from "../../components/GridPanels";
 import { MiddleHeader } from "../../components/header/MiddleHeader";
 import { RightHeader } from "../../components/header/RightHeader";
-import {
-  Logo,
-  SolidFire,
-  SolidFriends,
-  SolidHome,
-} from "../../components/icons";
+import Logo from "../../components/Logo";
 import { UserAvatar } from "../../components/UserAvatar";
-import avatar from "../../../assets/avatar.jpg";
+import { MeContext } from "../../utils/UserProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -22,6 +18,8 @@ const HeaderWrapper: React.FC<Props> = ({ children }) => (
 );
 
 export const LeftPanel: React.FC = () => {
+  const { leaderboard } = useContext(MeContext);
+
   return (
     <FixedGridPanel>
       <div className="flex justify-center items-center mb-7">
@@ -39,9 +37,13 @@ export const LeftPanel: React.FC = () => {
           </BoxedIcon>
         </Link>
         <div className="flex flex-col gap-2 border-t-2 border-t-primary-dark pt-2">
-          {Array.from([1, 2, 3]).map((_, idx) => (
-            <Link to="/u/us" key={idx}>
-              <UserAvatar src={avatar} size="sm" />
+          {leaderboard.map((user) => (
+            <Link to={`/u/${user.id}`} key={user.id}>
+              <UserAvatar
+                src={user.avatarUrl}
+                username={user.username}
+                size="sm"
+              />
             </Link>
           ))}
         </div>

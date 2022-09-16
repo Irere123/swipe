@@ -1,7 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { BaseOverlay } from "./BaseOverlay";
-import {} from "./icons";
 
 export const ProfileDropdown: React.FC<{
   user: any;

@@ -1,59 +1,198 @@
-require("dotenv-safe").config();
+import "dotenv-safe/config";
 import express from "express";
 import cors from "cors";
-import http from "http";
+import url from "url";
+import HTTP from "http";
+import { Server, WebSocket } from "ws";
 import { PrismaClient } from "@prisma/client";
-import { ApolloServer } from "apollo-server-express";
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { __prod__ } from "./lib/constants";
-import { DevOnly } from "./routes";
+import { DevOnly, MainRoutes, UserOnly } from "./routes";
+import { isAuth } from "./lib/isAuth";
+import { verify } from "jsonwebtoken";
 
 export const prisma = new PrismaClient();
+export const wsUsers: Record<
+  string,
+  { ws: WebSocket; openChatUserId: string | null }
+> = {};
+export const wsSend = (key: string, v: any) => {
+  if (key in wsUsers) {
+    wsUsers[key].ws.send(JSON.stringify(v));
+  }
+};
 
 const main = async () => {
   const app = express();
-  app.use(cors({ origin: "*" }));
+  app.use(
+    cors({
+      origin: "*",
+      maxAge: __prod__ ? 86400 : undefined,
+      exposedHeaders: [
+        "access-token",
+        "refresh-token",
+        "content-type",
+        "content-length",
+      ],
+    })
+  );
+
   app.use(express.json());
+  app.use("/u", isAuth(false), UserOnly);
+  app.use("/api", isAuth(), MainRoutes);
+  if (!__prod__) {
+    app.use("/dev", DevOnly);
+  }
+
+  app.get("/me", isAuth(false), async (req, res) => {
+    const leaderboard = await prisma.$queryRaw`
+      select u.id, "avatarUrl", "username", "bio", "displayName" 
+      from users u order by u."numLikes" DESC limit 3
+    `;
+
+    if (!req.userId) {
+      res.json({
+        user: null,
+        leaderboard,
+      });
+      return;
+    }
+
+    res.json({
+      user: await prisma.user.findFirst({ where: { id: req.userId } }),
+      leaderboard,
+    });
+  });
+
+  app.use((err: any, _: any, res: any, next: any) => {
+    if (res.headersSent) {
+      return next(err);
+    }
+    if (err.statusCode) {
+      res.status(err.statusCode).send(err.message);
+    } else {
+      console.log(err);
+      res.status(500).send("internal server error");
+    }
+  });
 
   app.get("/stats", async (_, res) => {
     const numUsers = await prisma.user.count();
     res.json({ numUsers });
   });
 
-  if (!__prod__) {
-    app.use("/dev", DevOnly);
-  }
+  app.get("/feed", isAuth(false), async (req, res) => {
+    const loggedIn = req.userId !== undefined;
+    let profiles = undefined;
 
-  const httpServer = http.createServer(app);
-  const server = new ApolloServer({
-    typeDefs: `
-      type Query {
-        hello: String!
+    if (!loggedIn) {
+      profiles = await prisma.$queryRaw`
+        select u.id, "username", "displayName", "birthday", bio, "avatarUrl"
+        from users u
+        order by u."numLikes" limit 20;
+      `;
+    } else {
+      profiles = await prisma.$queryRaw`
+        select u.id, "username", "displayName", "birthday", bio, "avatarUrl"
+        from users u
+        left join views v on v."viewerId" = ${req.userId}::UUID and u.id = v."targetId"
+        left join views v2 on ${req.userId}::UUID = v2."targetId" and v2.liked = true and u.id = v2."viewerId"
+        where
+        v is null
+        and u.id != ${req.userId}::UUID
+        order by
+          random()
+          - (case
+              when (v2 is not null)
+              then .2
+              else -least(current_timestamp::date - u."lastOnline"::date, 14) / 14.0
+            end)
+        limit 20;
+    `;
+    }
+
+    res.json({ profiles });
+  });
+
+  const http = HTTP.createServer(app);
+  const wss = new Server({ noServer: true });
+
+  wss.on("connection", (ws: WebSocket, userId: string) => {
+    if (!userId) {
+      ws.terminate();
+      return;
+    }
+
+    wsUsers[userId] = { openChatUserId: null, ws };
+
+    ws.on("message", async (e) => {
+      const {
+        type,
+        userId: openChatUserId,
+      }: { type: "message-open"; userId: string } = JSON.parse(e as any);
+      if (type === "message-open") {
+        if (userId in wsUsers) {
+          wsUsers[userId].openChatUserId = openChatUserId;
+        }
       }
-    `,
-    resolvers: {
-      Query: {
-        hello() {
-          return "Hello world";
-        },
-      },
-    },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+
+    ws.on("close", async () => {
+      delete wsUsers[userId];
+    });
   });
 
-  await server.start();
-  server.applyMiddleware({
-    app,
-    path: "/graphql",
+  http.on("upgrade", async function upgrade(request, socket, head) {
+    const good = (userId: string) => {
+      wss.handleUpgrade(request, socket, head, function done(ws) {
+        wss.emit("connection", ws, userId);
+      });
+    };
+    const bad = () => {
+      socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
+      socket.destroy();
+    };
+    try {
+      const {
+        query: { accessToken, refreshToken },
+      } = url.parse(request.url!, true);
+      if (
+        !accessToken ||
+        !refreshToken ||
+        typeof accessToken !== "string" ||
+        typeof refreshToken !== "string"
+      ) {
+        return bad();
+      }
+      try {
+        const data = verify(
+          accessToken,
+          process.env.ACCESS_TOKEN_SECRET
+        ) as any;
+        return good(data.userId);
+      } catch {}
+
+      try {
+        const data = verify(
+          refreshToken,
+          process.env.REFRESH_TOKEN_SECRET
+        ) as any;
+        const user = await prisma.user.findFirst({
+          where: { id: data.userId },
+        });
+        // token has been invalidated or user deleted
+        if (!user || user.tokenVersion !== data.tokenVersion) {
+          return bad();
+        }
+        return good(data.userId);
+      } catch {}
+    } catch {}
+
+    return bad();
   });
 
-  // Modified server startup
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve)
-  );
-  console.log(
-    `🚀🚀🚀 API Server running at http://localhost:4000${server.graphqlPath}`
-  );
+  http.listen(4000, () => {
+    console.log(`🚀🚀🚀 API Server running at http://localhost:4000`);
+  });
 };
 
 main()
