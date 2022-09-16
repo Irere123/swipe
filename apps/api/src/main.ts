@@ -191,7 +191,7 @@ const main = async () => {
   });
 
   http.listen(4000, () => {
-    console.log(`🚀🚀🚀 API Server running at http://localhost:4000}`);
+    console.log(`🚀🚀🚀 API Server running at http://localhost:4000`);
   });
 };
 

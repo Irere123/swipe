@@ -36,3 +36,17 @@ export type Match = {
 export type MatchesResponse = {
   matches: Match[];
 };
+
+export interface Message {
+  id: string;
+  senderId: string;
+  recipientId: string;
+  text: string;
+  createdAt: number;
+}
+
+export type WebsocketMessages =
+  | { type: "new-message"; message: Message }
+  | { type: "unmatch"; userId: string }
+  | { type: "new-match"; userId1: string; userId2: string }
+  | { type: "new-like" };

@@ -103,11 +103,35 @@ router.get("/match/:userId", async (req, res) => {
 router.get("/messages/:userId/:cursor?", async (req, res) => {
   const { userId, cursor } = req.params;
 
-  await prisma.$queryRaw`
-   SELECT * FROM messages m WHERE (m."receiverId" = ${userId}::UUID AND m."senderId"=${req.userId}::UUID)
-   OR (m."receiverId" = ${req.userId}::UUID AND m."senderId"=${userId}::UUID) BY 
+  const messages: any[] = await prisma.$queryRaw`
+   SELECT * FROM messages m WHERE (m."receiverId" = ${userId}::UUID AND m."senderId"=${
+    req.userId
+  }::UUID)
+   OR (m."receiverId" = ${req.userId}::UUID AND m."senderId"=${userId}::UUID) ${
+    cursor ? `m."createdAt" < ${cursor}` : null
+  } ORDER BY 
    m."createdAt" DESC LIMIT 21 
   `;
+
+  res.json({
+    messages: messages.slice(1, 20),
+    hasMore: messages.length === 21,
+  });
+
+  if (req.userId! in wsUsers) {
+    wsUsers[req.userId!].openChatUserId = userId;
+  }
+
+  if (!cursor) {
+    const userIdOrder = getUserIdOrder(userId, req.userId!);
+
+    await prisma.$queryRaw`
+     UPDATE matches m SET ${
+       userIdOrder.userId1 === req.userId ? "read1" : "read2"
+     } = false where m."userId1"=${userIdOrder.userId1}::UUID and 
+     m."userId2"=${userIdOrder.userId2}::UUID
+    `;
+  }
 });
 
 router.post("/unmatch", async (req, res) => {
